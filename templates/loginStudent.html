@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}LoginStudent{% endblock title %}
+{% block body %}
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100">
+                <div class="login100-form-title" style="background-image: url(static/images/bg-01.jpg)">
+                    <span class="login100-form-title-1"> Login Student </span>
+                </div>
+
+                <form class="login100-form validate-form" method="POST" , action="/loginStudent">
+                    {% csrf_token %}
+
+                    <div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
+                        <span class="label-input100">Full Name :</span>
+                        <input class="input100" id="floatingInput" type="text" name="name"
+                            placeholder="Mausam Basnet" />
+                        <span class="focus-input100"></span>
+                    </div>
+                    <div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
+                        <span class="label-input100">College Roll Number :</span>
+                        <input class="input100" id="floatingInput" type="text" name="roll" placeholder="075BCT049" />
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input m-b-18" data-validate="Password is required">
+                        <span class="label-input100">Date of Birth :</span>
+                        <input class="input100" id="floatingInput" type="text" name="dob" placeholder="2000-09-05" />
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="container-login100-form-btn">
+                        <button class="login100-form-btn">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endblock body %}
