@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import logout , authenticate , login
 from django.contrib.auth.forms import AuthenticationForm
 from .models import StudentLoginInfo
+from django.contrib import messages
 
 # Create your views here.
 
@@ -16,13 +17,16 @@ def loginStudent(request):
         dob= request.POST.get('dob')
     # check if user is real
     
-        student = StudentLoginInfo.objects.get(username__exact=usern)
-
-        if (student.roll_number==roll and str(student.dob)==dob):
-            return render(request,'Student.html')
-    # A backend authenticated the credentials
+     #   student = StudentLoginInfo.objects.get(username__exact=usern)
+        if StudentLoginInfo.objects.filter(username__exact=usern).exists():
+            student = StudentLoginInfo.objects.get(username__exact=usern)
+            if (student.roll_number==roll and str(student.dob)==dob):
+                return render(request,'Student.html')
+            else:
+                messages.error(request, 'Sorry!  The Credentials doesnot match.')
+                return render(request, 'loginStudent.html')
         else:
-    # No backend authenticated the credentials
+            messages.error(request,'Seems Like You are not the student of Pulchowk')
             return render(request, 'loginStudent.html')
     return render(request, 'loginStudent.html')
 
@@ -39,6 +43,7 @@ def loginTeacher(request):
     # A backend authenticated the credentials
         else:
     # No backend authenticated the credentials
+            messages.error(request, 'Sorry You are not registered as a Professor.')
             return render(request, 'loginTeacher.html')
     return render(request, 'loginTeacher.html')
 
