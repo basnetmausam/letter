@@ -1,12 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Congratulations! You are logged in as a teacher.</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}Services{% endblock title %}
+{% block body %}
+<h1>Requests::</h1>
+
+<div>
+    {% for student in student_list %}
+
+    <div class="alert alert-success" role="alert" onclick="location.href='#';" style="cursor: pointer;">
+        <h4 class="alert-heading">{{student.name}}</h4>
+        <p>This person has requested you for the recommendation letter.He has gpa {{student.gpa}}</p>
+        <hr>
+        <p class="mb-0">Click Here to create one.</p>
+
+        
+      </div>
+    
+    {% endfor %}
+</div>
+{% endblock body %}

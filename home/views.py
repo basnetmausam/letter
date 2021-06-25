@@ -1,8 +1,10 @@
+import datetime
+from django.db.models.fields import DateTimeField
 from django.shortcuts import render , redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import logout , authenticate , login
 from django.contrib.auth.forms import AuthenticationForm
-from .models import StudentLoginInfo
+from .models import StudentLoginInfo, StudentData
 from django.contrib import messages
 
 # Create your views here.
@@ -15,13 +17,11 @@ def loginStudent(request):
         usern=request.POST.get('name')
         roll= request.POST.get('roll')
         dob= request.POST.get('dob')
-    # check if user is real
-    
-     #   student = StudentLoginInfo.objects.get(username__exact=usern)
+
         if StudentLoginInfo.objects.filter(username__exact=usern).exists():
             student = StudentLoginInfo.objects.get(username__exact=usern)
             if (student.roll_number==roll and str(student.dob)==dob):
-                return render(request,'Student.html')
+                return render(request,'Student.html',{'naam': student.username})
             else:
                 messages.error(request, 'Sorry!  The Credentials doesnot match.')
                 return render(request, 'loginStudent.html')
@@ -29,6 +29,21 @@ def loginStudent(request):
             messages.error(request,'Seems Like You are not the student of Pulchowk')
             return render(request, 'loginStudent.html')
     return render(request, 'loginStudent.html')
+
+
+
+def studentSuccess(request):
+    if request.method=="POST":
+        uname=request.POST.get('name')
+        ugpa= request.POST.get('gpa')
+        uuni= request.POST.get('university')
+        uprof= request.POST.get('prof')
+
+        
+        info = StudentData(name=uname , gpa=ugpa, uni=uuni, professor=uprof)
+        info.save()
+     #   messages.success(request, 'Your message has been sent.')
+    return render(request,"student_success.html")
 
 
 def loginTeacher(request):
@@ -39,7 +54,9 @@ def loginTeacher(request):
         user = authenticate(username=usern, password=passwo)
         if user is not None:
             login(request,user)
-            return render(request, 'Teacher.html')
+            sir_name=usern.replace("_", " ")
+            dataharu=StudentData.objects.filter(professor=sir_name)
+            return render(request, 'Teacher.html',{'student_list':dataharu})
     # A backend authenticated the credentials
         else:
     # No backend authenticated the credentials
