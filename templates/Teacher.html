@@ -6,12 +6,20 @@
 <div>
     {% for student in student_list %}
 
-    <div class="alert alert-success" role="alert" onclick="location.href='#';" style="cursor: pointer;">
+    <div class="alert alert-success" role="alert">
         <h4 class="alert-heading">{{student.name}}</h4>
         <p>This person has requested you for the recommendation letter.He has gpa {{student.gpa}}</p>
         <hr>
-        <p class="mb-0">Click Here to create one.</p>
-
+        <form action='/makeLetter' method='POST'>
+          {% csrf_token %}
+          
+          <div class="container-login100-form-btn">
+						<button class="login100-form-btn" type='submit' value="{{student.name}}" name="naam">
+							CREATE
+						</button>
+					</div>
+          
+          </form>
         
       </div>
     

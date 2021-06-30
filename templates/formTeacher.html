@@ -4,11 +4,22 @@
 {% block body %}
 <link rel="stylesheet" href="../static/css/form.css">
   <div class="container">
-    <div class="title">Hey Student!</div>
+    <div class="title">Give Information for {{naam}}</div>
     <div class="content">
       <form method="POST", action="/studentSuccess">
       {% csrf_token %}
         <div class="user-details">
+            <div class="input-box">
+                <span class="details">You have known him/her for:</span>
+                <!-- <input type="text" placeholder="Choose Professor" required> -->
+                <select name="prof">
+                  <option selected hidden>Professor Name</option>
+                  <option>one year</option>
+                  <option>two year</option>
+                  <option>three year</option>
+                  <option>four year</option>
+                </select>
+              </div>
           <div class="input-box">
             <span class="details">Full Name</span>
             <input type="text" value="{{naam}}" name="name" readonly>

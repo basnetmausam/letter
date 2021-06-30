@@ -21,7 +21,11 @@ def loginStudent(request):
         if StudentLoginInfo.objects.filter(username__exact=usern).exists():
             student = StudentLoginInfo.objects.get(username__exact=usern)
             if (student.roll_number==roll and str(student.dob)==dob):
-                return render(request,'Student.html',{'naam': student.username})
+                if StudentData.objects.filter(name__exact=usern).exists():
+                    return render(request,"student_success.html",{'naam': student.username})
+                else:
+                    return render(request,'Student.html',{'naam': student.username})
+                         
             else:
                 messages.error(request, 'Sorry!  The Credentials doesnot match.')
                 return render(request, 'loginStudent.html')
@@ -29,6 +33,13 @@ def loginStudent(request):
             messages.error(request,'Seems Like You are not the student of Pulchowk')
             return render(request, 'loginStudent.html')
     return render(request, 'loginStudent.html')
+
+def make_letter(request):
+    if request.method=="POST":
+        name=request.POST.get('naam')
+    
+    return render(request, 'formTeacher.html',{'naam':name})
+
 
 
 
