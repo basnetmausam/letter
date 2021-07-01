@@ -4,15 +4,11 @@
 {% block body %}
 <link rel="stylesheet" href="../static/css/form.css">
   <div class="container">
-    <div class="title">Hey Student!</div>
+    <div class="title">Hey {{naam}}!</div>
     <div class="content">
       <form method="POST", action="/studentSuccess">
       {% csrf_token %}
         <div class="user-details">
-          <div class="input-box">
-            <span class="details">Full Name</span>
-            <input type="text" value="{{naam}}" name="name" readonly>
-          </div>
           <div class="input-box">
             <span class="details">Total GPA</span>
             <input type="text" placeholder="GPA" name="gpa" required>
@@ -30,6 +26,9 @@
               <option>Aman Sakya</option>
               <option>Jadgish Gawali</option>
             </select>
+          </div>
+          <div class="input-box">
+            <input type="hidden" value="{{naam}}" name="name" readonly>
           </div>
           <!-- <div class="gender-details">
           <input type="radio" name="gender" id="dot-1">

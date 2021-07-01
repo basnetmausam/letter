@@ -4,7 +4,7 @@ from django.shortcuts import render , redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import logout , authenticate , login
 from django.contrib.auth.forms import AuthenticationForm
-from .models import StudentLoginInfo, StudentData
+from .models import StudentLoginInfo, StudentData,TeacherInfo
 from django.contrib import messages
 
 # Create your views here.
@@ -50,8 +50,9 @@ def studentSuccess(request):
         uuni= request.POST.get('university')
         uprof= request.POST.get('prof')
 
+        prof = TeacherInfo.objects.get(name__exact = uprof)
         
-        info = StudentData(name=uname , gpa=ugpa, uni=uuni, professor=uprof)
+        info = StudentData(name=uname , gpa=ugpa, uni=uuni, professor=prof)
         info.save()
      #   messages.success(request, 'Your message has been sent.')
     return render(request,"student_success.html")
@@ -66,7 +67,7 @@ def loginTeacher(request):
         if user is not None:
             login(request,user)
             sir_name=usern.replace("_", " ")
-            dataharu=StudentData.objects.filter(professor=sir_name)
+            dataharu=StudentData.objects.filter(professor__name=sir_name)
             return render(request, 'Teacher.html',{'student_list':dataharu})
     # A backend authenticated the credentials
         else:
