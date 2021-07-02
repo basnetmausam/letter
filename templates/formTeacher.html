@@ -6,42 +6,35 @@
   <div class="container">
     <div class="title">Give Information for {{naam}}</div>
     <div class="content">
-      <form method="POST", action="/studentSuccess">
+      <form method="POST", action="/final">
       {% csrf_token %}
         <div class="user-details">
             <div class="input-box">
                 <span class="details">You have known him/her for:</span>
                 <!-- <input type="text" placeholder="Choose Professor" required> -->
-                <select name="prof">
-                  <option selected hidden>Professor Name</option>
+                <select name="yrs">
+                  <option selected hidden>No.of years</option>
                   <option>one year</option>
                   <option>two year</option>
                   <option>three year</option>
                   <option>four year</option>
                 </select>
               </div>
+          
           <div class="input-box">
-            <span class="details">Full Name</span>
-            <input type="text" value="{{naam}}" name="name" readonly>
-          </div>
-          <div class="input-box">
-            <span class="details">Total GPA</span>
-            <input type="text" placeholder="GPA" name="gpa" required>
-          </div>
-          <div class="input-box">
-            <span class="details">Ongoing University</span>
-            <input type="text" placeholder="University Name" name="university" required>
-          </div>
-          <div class="input-box">
-            <span class="details">Requesting Professor</span>
-            <!-- <input type="text" placeholder="Choose Professor" required> -->
-            <select name="prof">
-              <option selected hidden>Professor Name</option>
-              <option>Subarna Sakya</option>
-              <option>Aman Sakya</option>
-              <option>Jadgish Gawali</option>
+            <span class="details">How was he/she:</span>
+            <select name="behaviour">
+              <option selected hidden>How?</option>
+              <option>good</option>
+              <option>better</option>
+              <option>best</option>
             </select>
           </div>
+
+          <div class="input-box">
+            <input type="hidden" value="{{naam}}" name="name" readonly>
+          </div>
+         
           <!-- <div class="gender-details">
           <input type="radio" name="gender" id="dot-1">
           <input type="radio" name="gender" id="dot-2">

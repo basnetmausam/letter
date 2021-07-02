@@ -6,11 +6,50 @@ from django.contrib.auth import logout , authenticate , login
 from django.contrib.auth.forms import AuthenticationForm
 from .models import StudentLoginInfo, StudentData,TeacherInfo
 from django.contrib import messages
+# imports from xhtml
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
 
 # Create your views here.
 
 def index(request):
     return render(request, 'index.html')
+
+
+
+### xhtml2pdf
+def final(request, *args, **kwargs):
+    if request.method=="POST":
+        naam=request.POST.get('name')
+        barsa= request.POST.get('yrs')
+        bani= request.POST.get('behaviour')
+
+    student = StudentData.objects.get(name__exact=naam)
+    
+
+    template_path = 'print.html'
+    context={'years':barsa , 'bani':bani , 'student':student}
+    
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+
+    ## If Download
+#    response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    ## If view
+    response['Content-Disposition'] = 'filename="your_letter.pdf"'
+
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    # if error then show some funy view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
 
 def loginStudent(request):
     if request.method=="POST":
