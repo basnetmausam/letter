@@ -25,7 +25,7 @@ def final(request, *args, **kwargs):
         barsa= request.POST.get('yrs')
         bani= request.POST.get('behaviour')
 
-    student = StudentData.objects.get(name__exact=naam)
+    student = StudentData.objects.get(name__exact = naam)
     
 
     template_path = 'print.html'
