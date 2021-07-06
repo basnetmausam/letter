@@ -16,7 +16,8 @@ from xhtml2pdf import pisa
 def index(request):
     return render(request, 'index.html')
 
-
+def gallery(request):
+    return render(request,'gallery.html')
 
 ### xhtml2pdf
 def final(request, *args, **kwargs):
