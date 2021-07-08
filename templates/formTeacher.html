@@ -22,19 +22,56 @@
               </div>
           
           <div class="input-box">
-            <span class="details">How was he/she:</span>
-            <select name="behaviour">
+            <span class="details">presentation skills:</span>
+            <select name="presentation">
               <option selected hidden>How?</option>
               <option>good</option>
-              <option>better</option>
-              <option>best</option>
+              <option>excellent</option>
             </select>
           </div>
 
+           <!-- <div class="input-box">
+          <span class="details">His/her Qualities</span>
+          <select multiple name="quality[]" class='form-control'>
+            <option selected hidden>Qualities</option>
+            <option>Leadership</option>
+            <option>Teamwork</option>
+            <option>Confident</option>
+            <option value='Well-spoken'>Well-spoken</option>
+          </select>
+        </div> -->
+        <div class="input-box">
+          <span class="details">His/her Qualities</span>
+          <input type="text" name="quality1">
+          <input type="text" name="quality2">
+        </div> 
+
+        <div class="input-box">
+          <span class="details">Extracirricular Activities</span>
+          <select name="eca">
+            <option>yes</option>
+            <option>no</option>
+          </select>
+        </div>
+
+        <div class="input-box">
+          <span class="details">Project Details</span>
+          <input type="text" name="project">
+        </div> 
+
+        <div class="input-box">
+          <span class="details">Paper Published</span>
+          <select name="paper">
+            <option>yes</option>
+            <option>no</option>
+          </select>
+        </div>
+
+
+
           <div class="input-box">
             <input type="hidden" value="{{naam}}" name="name" readonly>
-          </div>
-         
+          </div> 
           <!-- <div class="gender-details">
           <input type="radio" name="gender" id="dot-1">
           <input type="radio" name="gender" id="dot-2">

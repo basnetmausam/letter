@@ -272,6 +272,7 @@ iframe {
   width: 80px; */
   left: -112px;
   width: 100px;
+  margin-top: 15px !important;
 
 }
 
@@ -285,7 +286,8 @@ iframe {
   display: block;
   width: 100%;
   background: transparent;
-  padding: 0 5px;
+  padding: 15px !important;
+
 }
 
 .focus-input100 {
@@ -391,6 +393,7 @@ input.input100 {
   display: -ms-flexbox;
   display: flex;
   flex-wrap: wrap;
+  margin-top: 20px !important;
 }
 
 .login100-form-btn {
@@ -404,7 +407,7 @@ input.input100 {
   padding: 0 20px;
   min-width: 160px;
   height: 50px;
-  background-color: #57b846;
+  background-color: #c36cbb;
   border-radius: 25px;
 
   font-family: Poppins-Regular;

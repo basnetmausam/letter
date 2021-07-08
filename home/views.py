@@ -22,15 +22,28 @@ def gallery(request):
 ### xhtml2pdf
 def final(request, *args, **kwargs):
     if request.method=="POST":
-        naam=request.POST.get('name')
+        name=request.POST.get('name')
         barsa= request.POST.get('yrs')
-        bani= request.POST.get('behaviour')
+        presentation= request.POST.get('presentation')
+        quality1 = request.POST.get('quality1')
+        quality2 = request.POST.get('quality2')
+        eca = request.POST.get('eca')
+        project = request.POST.get('project')
+        paper = request.POST.get('paper')
 
-    student = StudentData.objects.get(name__exact = naam)
+
+        student = StudentData.objects.get(name=name)
+
+        student.is_generated=True
+        student.save()
+
+
+    
     
 
     template_path = 'print.html'
-    context={'years':barsa , 'bani':bani , 'student':student}
+    context={'years':barsa , 'presentation':presentation , 'student':student , 'quality1':quality1, 
+                'quality2':quality2, 'eca':eca, project:'project' , 'paper':paper}
     
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type='application/pdf')
@@ -59,12 +72,13 @@ def loginStudent(request):
         dob= request.POST.get('dob')
 
         if StudentLoginInfo.objects.filter(username__exact=usern).exists():
-            student = StudentLoginInfo.objects.get(username__exact=usern)
-            if (student.roll_number==roll and str(student.dob)==dob):
-                if StudentData.objects.filter(name__exact=usern).exists():
-                    return render(request,"student_success.html",{'naam': student.username})
+            student = StudentLoginInfo.objects.get(roll_number__exact=roll)
+            if (student.username==usern and str(student.dob)==dob):
+                teachers = TeacherInfo.objects.filter(department = student.department)
+                if StudentData.objects.filter(std__roll_number=roll).exists():
+                    return render(request,"student_success.html",{'naam': student.username,"roll":student.roll_number})
                 else:
-                    return render(request,'Student.html',{'naam': student.username})
+                    return render(request,'Student.html',{'naam': student.username , 'teachers':teachers,"roll":student.roll_number})
                          
             else:
                 messages.error(request, 'Sorry!  The Credentials doesnot match.')
@@ -76,23 +90,24 @@ def loginStudent(request):
 
 def make_letter(request):
     if request.method=="POST":
-        name=request.POST.get('naam')
+        roll=request.POST.get('roll')
     
-    return render(request, 'formTeacher.html',{'naam':name})
-
+    stu = StudentLoginInfo.objects.get(roll_number=roll)
+    
+    return render(request, 'formTeacher.html',{'naam':stu.username , 'roll':roll})
 
 
 
 def studentSuccess(request):
     if request.method=="POST":
-        uname=request.POST.get('name')
-        ugpa= request.POST.get('gpa')
         uuni= request.POST.get('university')
         uprof= request.POST.get('prof')
+        uroll= request.POST.get('roll') 
 
         prof = TeacherInfo.objects.get(name__exact = uprof)
+        stu = StudentLoginInfo.objects.get(roll_number = uroll)
         
-        info = StudentData(name=uname , gpa=ugpa, uni=uuni, professor=prof)
+        info = StudentData(name=stu.username , uni=uuni, professor=prof ,std = stu)
         info.save()
      #   messages.success(request, 'Your message has been sent.')
     return render(request,"student_success.html")
@@ -107,7 +122,7 @@ def loginTeacher(request):
         if user is not None:
             login(request,user)
             sir_name=usern.replace("_", " ")
-            dataharu=StudentData.objects.filter(professor__name=sir_name)
+            dataharu = StudentData.objects.filter(is_generated=False , professor__name=sir_name)
             return render(request, 'Teacher.html',{'student_list':dataharu})
     # A backend authenticated the credentials
         else:
