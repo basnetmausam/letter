@@ -36,6 +36,8 @@
 	box-sizing: border-box;
 }
 
+
+
 body, html {
 	height: 100%;
 	font-family: Poppins-Regular, sans-serif;
@@ -178,9 +180,17 @@ iframe {
   justify-content: center;
   align-items: center;
   padding: 15px;
-  background: #ebeeef;
 }
 
+.container-login100-forgot-password{
+  display: flex;
+  justify-content:center;
+}
+
+.container-login100-forgot-password a {
+  margin-top: 10px;
+  color:rgba(26, 3, 231, 0.863) !important;
+}
 
 .wrap-login100 {
   width: 670px;
@@ -252,6 +262,11 @@ iframe {
 
 /*------------------------------------------------------------------
 [ Input ]*/
+.password-validation{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
 
 .wrap-input100 {
   width: 100%;
@@ -273,7 +288,9 @@ iframe {
   width: 80px; */
   left: -112px;
   width: 100px;
+  margin-top: 15px !important;
 
+  margin-top:15px !important;
 }
 
 /*---------------------------------------------*/
@@ -286,7 +303,9 @@ iframe {
   display: block;
   width: 100%;
   background: transparent;
-  padding: 0 5px;
+  padding: 15px !important;
+
+  padding:15px !important;
 }
 
 .focus-input100 {
@@ -392,6 +411,7 @@ input.input100 {
   display: -ms-flexbox;
   display: flex;
   flex-wrap: wrap;
+  margin-top: 20px !important;
 }
 
 .login100-form-btn {
@@ -402,12 +422,12 @@ input.input100 {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 20px;
+  padding: 20px 20px;
   min-width: 160px;
   height: 50px;
-  background-color: #57b846;
+  background-color: #c36cbb;
   border-radius: 25px;
-
+  
   font-family: Poppins-Regular;
   font-size: 16px;
   color: #fff;

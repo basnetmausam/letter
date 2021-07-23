@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Success{% endblock title %}
+
+{% block body %}
+
+{% if letter%}
+<h2>Here is your letter</h2>
+
+<form action='/studentfinal' method='POST'>
+    {% csrf_token %}
+
+    <div class="container-login100-form-btn">
+        <button class="login100-form-btn" target="blank" type='submit' value="{{roll}}" name="roll">
+            Download
+        </button>
+    </div>
+
+
+</form>
+{% else %}
+<h1>Your request has been successfully submitted.</h1>
+<h5><br><br>You will have your letter here once professor provides it. </h5>
+{% endif %}
+
+{% endblock body %}

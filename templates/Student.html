@@ -1,12 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Yooo! You are a student.</h1>
-</body>
+{% extends 'base.html' %}
+{% block title %}Request{% endblock title %}
+
+{% block body %}
+  <div class="container">
+    <div class="title">Hey {{naam}}!</div>
+    <div class="content">
+      <form method="POST", action="/studentSuccess">
+      {% csrf_token %}
+        <div class="user-details">
+          <div class="input-box">
+            <span class="details">Ongoing University</span>
+            <input type="text" placeholder="University Name" name="university" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Email name</span>
+            <input type="email" placeholder="Email" name="email" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Requesting Professor</span>
+            <!-- <input type="text" placeholder="Choose Professor" required> -->
+            <select name="prof">
+              <option selected hidden>Professor Name</option>
+              {% for teacher in teachers%}
+              <option>{{teacher.name}}</option>
+              {% endfor %}
+              
+            </select>
+          </div>
+          <div class="input-box">
+            <input type="hidden" value="{{roll}}" name="roll" readonly>
+          </div>
+          <!-- <div class="gender-details">
+          <input type="radio" name="gender" id="dot-1">
+          <input type="radio" name="gender" id="dot-2">
+          <input type="radio" name="gender" id="dot-3">
+          <span class="gender-title">Gender</span>
+          <div class="category">
+            <label for="dot-1">
+            <span class="dot one"></span>
+            <span class="gender">Male</span>
+          </label>
+          <label for="dot-2">
+            <span class="dot two"></span>
+            <span class="gender">Female</span>
+          </label>
+          <label for="dot-3">
+            <span class="dot three"></span>
+            <span class="gender">Prefer not to say</span>
+            </label>
+          </div>
+        </div> -->
+          <div class="button">
+            <input type="submit" value="Submit">
+          </div>
+      </form>
+    </div>
+  </div>
+</body>{% endblock body %}
 </html>
