@@ -18,6 +18,7 @@ urlpatterns = [
     path('OTP_check', views.OTP_check, name='OTP_check'),
     path('contact', views.contact, name='contact'),
     path('feedback', views.feedback, name='feedback'),
+    path('about', views.about, name='about'),
 
 
 
