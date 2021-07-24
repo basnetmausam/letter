@@ -21,6 +21,9 @@ from django.core import serializers
 
 #sending email 
 from django.core.mail import send_mail
+#to send mail to admin
+from django.core.mail import mail_admins
+
 
 #to create random number for OTP
 from random import randint
@@ -312,3 +315,22 @@ def OTP_generator(n):
     range_end = (10**n)-1
     return randint(range_start, range_end)  
         
+
+#to pass message to admin user
+def contact(request):
+    
+    return render(request, 'contact.html')
+
+def feedback(request):
+    
+    if request.method=="POST":
+        First_name =request.POST.get('first_name')  
+        last_name =request.POST.get('last_name')   
+        email =request.POST.get('email')  
+        feedback =request.POST.get('feedback')   
+
+        message =str(First_name)+"\n"+str(last_name)+"\n"+str(email)+"\n"+str(feedback)
+
+        mail_admins("Feedback", message, fail_silently=False, connection=None, html_message=None)
+        send_mail("Reply From Recoomendation Letter Team", "Thank you for your feedback. We will get back to you soon.", " christronaldo9090909@gmail.com",[email],fail_silently=False)
+    return render(request, 'contact.html')

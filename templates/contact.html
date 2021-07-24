@@ -1,0 +1,71 @@
+{% extends 'base.html'%}
+{% block title %}Contact Us{% endblock title %}
+{% block body %}
+
+<div  id="alertsuccess"></div>
+<form class="login100-form validate-form" method="POST" id="form" action="feedback">
+    {% csrf_token %}
+    <div class="container">
+        <div class="form-check">
+
+            <div class="row">
+                <label class="form-check-label" for="invalidCheck2">
+                    <h3>Your Message</h3>
+                </label>
+                <br>
+
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <label class="form-check-label" for="invalidCheck2">
+                            First Name
+                        </label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control text-area" name="first_name" aria-label="Default"
+                                aria-describedby="inputGroup-sizing-default"></input>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-check-label" for="invalidCheck2">
+                            Last Name
+                        </label>
+                        <div class="input-group mb-3">
+
+                            <input type="text" class="form-control text-area" name="last_name" aria-label="Default"
+                                aria-describedby="inputGroup-sizing-default"></input>
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+                <label class="form-check-label" for="invalidCheck2">
+                    Email
+                </label>
+                <div class="input-group mb-3">
+
+                    <input type="email" class="form-control text-area" name="email" aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default" required></input>
+                </div>
+                <br>
+
+                <label class="form-check-label" for="invalidCheck2">
+                    Enter Your Message
+                </label>
+                <div class="input-group mb-3">
+
+                    <textarea class="form-control text-area" name="feedback" aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default"></textarea>
+                </div>
+            </div>
+            <input type="submit" class="login100-form-btn" id="btn" onclick="click()" value="Submit" class="btn btn-primary"></input>
+
+        </div>
+    </div>
+</form>
+
+
+
+
+{%endblock body %}
