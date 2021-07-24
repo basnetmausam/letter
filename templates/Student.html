@@ -13,12 +13,16 @@
             <input type="text" placeholder="University Name" name="university" required>
           </div>
           <div class="input-box">
+            <span class="details">Email name</span>
+            <input type="email" placeholder="Email" name="email" required>
+          </div>
+          <div class="input-box">
             <span class="details">Requesting Professor</span>
             <!-- <input type="text" placeholder="Choose Professor" required> -->
             <select name="prof">
               <option selected hidden>Professor Name</option>
               {% for teacher in teachers%}
-              <option>{{teacher.name}}</option>
+              <option>{{teacher.name}} | {{teacher.unique_id}}</option>
               {% endfor %}
               
             </select>

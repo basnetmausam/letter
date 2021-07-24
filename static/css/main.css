@@ -36,6 +36,8 @@
 	box-sizing: border-box;
 }
 
+
+
 body, html {
 	height: 100%;
 	font-family: Poppins-Regular, sans-serif;
@@ -180,6 +182,15 @@ iframe {
   padding: 15px;
 }
 
+.container-login100-forgot-password{
+  display: flex;
+  justify-content:center;
+}
+
+.container-login100-forgot-password a {
+  margin-top: 10px;
+  color:rgba(26, 3, 231, 0.863) !important;
+}
 
 .wrap-login100 {
   width: 670px;
@@ -251,6 +262,11 @@ iframe {
 
 /*------------------------------------------------------------------
 [ Input ]*/
+.password-validation{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
 
 .wrap-input100 {
   width: 100%;
@@ -274,6 +290,7 @@ iframe {
   width: 100px;
   margin-top: 15px !important;
 
+  margin-top:15px !important;
 }
 
 /*---------------------------------------------*/
@@ -288,6 +305,7 @@ iframe {
   background: transparent;
   padding: 15px !important;
 
+  padding:15px !important;
 }
 
 .focus-input100 {
@@ -404,12 +422,12 @@ input.input100 {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 20px;
+  padding: 20px 20px;
   min-width: 160px;
   height: 50px;
   background-color: #c36cbb;
   border-radius: 25px;
-
+  
   font-family: Poppins-Regular;
   font-size: 16px;
   color: #fff;

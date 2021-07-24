@@ -10,5 +10,17 @@ urlpatterns = [
     path('makeLetter', views.make_letter, name='MakeLetter'),
     path('final', views.final, name='Final'),
     path('gallery', views.gallery, name='Gallery'),
+    path('studentfinal', views.studentfinal, name='StudentFinal'),
+    path('forgotPassword', views.forgotPassword, name='forgotPassword'),
+    # path('validatePassword', views.validatePassword, name='validatePassword'),
+    path('changePassword', views.changePassword, name='changePassword'),
+    path('otp', views.otp, name='otp'),
+    path('OTP_check', views.OTP_check, name='OTP_check'),
+
+
+
+
+
+
 ]
 

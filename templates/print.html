@@ -29,8 +29,8 @@
     <h1>Letter of Recommendation</h1>
     
     <p>I would like to recommend <b>{{student.name}}</b> for admission to the graduate program at your university.
-        I have known {{student.name}} for about {{years}} now as an undergraduate student
-        in <student/program> engineering. I have taught him courses on <student/courses>.
+        I have known {{student.name}} for about {{student.years_taught}} now as an undergraduate student
+        in {{student.std.program}} engineering. I have taught him courses on <student.courses>.
         Moreover, I was the supervisor for his final year project. </p>
 
     <p>I recall <student.firstname> as a sincere and hardworking student. 
@@ -41,22 +41,22 @@
     <p>I was the supervisor in his project titled <student/project_title> . I was
         quite impressed by his hardworking nature and learning capability.I could observe his keen interest 
         and aptitude for research while working on the project.
-        {{project}}
-        {%if paper == 'yes'%}
+        {{student.project}}
+        {%if student.paper == 'yes'%}
         In fact, at the end of the project, he was also able to publish a paper.</p>
         {%endif%}
         
-    <p>I have noted his {{presentation}} presentation skills while he presented his work at our department as well as in the
+    <p>I have noted his {{student.presentation}} presentation skills while he presented his work at our department as well as in the
         conference.
-        {%if quality1 and quality2%}
-        I have seen that he has good {{quality1}}and also has good {{quality2}} qualities.
+        {%if student.quality1 and student.quality2%}
+        I have seen that he has good {{student.quality1}}and also has good {{student.quality2}} qualities.
         {%endif%}
         He is a well-spoken person with a friendly and gentle personality. He is very helpful and cooperative student. He eagerly 
         handed over his project work to his juniors who wanted to further continue the research on the topic along 
         with proper guidance and resources. I have also seen his presentation and communication skills during his 
         project and paper presentations.</p>
         
-        {%if eca == 'yes'%}
+        {%if student.eca == 'yes'%}
         <p>I appreciate his technical and professional skills. Unlike, most students who limit their project to an 
         academic exercise, he  was also active in extra-curricular activities. Besides academics, he was also 
         involved in several activities in and off the campus. He participated in various hackathons.</p> 
@@ -68,10 +68,10 @@
 
     <p>{{student.professor.name}}, PhD 
       <br>{{student.professor.title}},
-     <br>Department of <student.professor.department>
+     <br>Department of {{student.professor.department}} Engineering
       <br>Pulchowk Campus, Institute of Engineering, Tribhuvan University
-     <br>Phone:<student.professor.phone> 
-     <br>Mail: <student.professor.email></p>
+     <br>Phone:{{student.professor.phone}} 
+     <br>Mail: {{student.professor.email}}</p>
 
     
 </body>

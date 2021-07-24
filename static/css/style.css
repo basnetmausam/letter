@@ -198,6 +198,11 @@ nav {
 	align-items: center;
 	margin:auto;
   }
+  
+  button.hide-me{
+	display: none
+  }
+
   .container .title {
 	font-size: 25px;
 	font-weight: 500;

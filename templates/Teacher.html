@@ -1,28 +1,129 @@
 {% extends 'base.html' %}
 {% block title %}Services{% endblock title %}
 {% block body %}
+
+<div class="container-fluid">
+
 <h1>Requests::</h1>
-
-<div>
-    {% for student in student_list %}
-
-    <div class="alert alert-success" role="alert">
-        <h4 class="alert-heading">{{student.name}}</h4>
-        <p>This person has requested you for the recommendation letter.He has gpa {{student.gpa}}</p>
-        <hr>
-        <form action='/makeLetter' method='POST'>
-          {% csrf_token %}
-          
-          <div class="container-login100-form-btn">
-						<button class="login100-form-btn" type='submit' value="{{student.std.roll_number}}" name="roll">
-							CREATE
-						</button>
-					</div>
-          
-          </form>
-        
-      </div>
-    
-    {% endfor %}
 </div>
+
+<div class="container-fluid">
+  {% if check_value %}
+  <h1>You have no request</h1>
+  {%else %}
+  {% for student in student_list %}
+
+
+
+  <div class="alert alert-success" role="alert">
+    <h4 class="alert-heading">{{student.name}}</h4>
+    <p>This person has requested you for the recommendation letter.He has gpa {{student.gpa}}</p>
+    <hr>
+    <form action='/makeLetter' method='POST'>
+      {% csrf_token %}
+
+      <div class="container-login100-form-btn">
+        <button class="login100-form-btn" type='submit' value="{{student.std.roll_number}}" name="roll">
+          CREATE
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+
+  {% endfor %}
+  {%endif %}
+  <br>
+  <br>
+  <br>
+  <h1>Students You Have Recommended:
+    <div class="container-login100-form-btn">
+      <button class="login100-form-btn" id="btn" target="blank" type='submit' value="{{roll}}" name="roll">
+        View
+      </button>
+    </div>
+
+
+    <div class="container-fluid">
+      <table class="table table-dark">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col" id="id"></th>
+            <th scope="col" id="col-stdname"></th>
+            <th scope="col" id="col-university"></th>
+            <th scope="col" id="col-email"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row" id="id-no"></th>
+            <td id="stdname"></td>
+            <td id="university"></td>
+            <td id="email"></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+
+
+
+
+</div>
+
+<script>
+  var pagecounter = 1;
+  var heading_id = document.getElementById("id");
+  var heading_nameharu = document.getElementById("col-stdname");
+  var heading_email = document.getElementById("col-email");
+  var heading_universityharu = document.getElementById("col-university");
+
+
+
+  var button = document.getElementById("btn");
+  var id_no = document.getElementById("id-no");
+  var nameharu = document.getElementById("stdname");
+  var email = document.getElementById("email");
+  var universityharu = document.getElementById("university");
+
+  // adding event of button 
+  button.addEventListener("click", function () {
+    pagecounter++;
+    if (pagecounter > 1) {
+
+      // hiding buttons after viewing once 
+      button.classList.add("hide-me")
+    }
+    var ourRequest = new XMLHttpRequest();
+
+    //after GET mentioning the location where ajax is to be used
+    ourRequest.open("GET", "http://127.0.0.1:8000/loginTeacher", true);
+    ourRequest.onload = function () {
+
+      // parsing data from models as JSON objects 
+      var students = JSON.parse('{{ std_dataharu | safe }}');
+      heading_id.innerHTML = '#'
+      heading_nameharu.innerHTML = 'Name'
+      heading_universityharu.innerHTML = 'University'
+      heading_email.innerHTML = 'Email'
+      for (var i = 0; i < students.length; i++) {
+
+
+
+        id_no.innerHTML += i + 1 + "<br>";
+        universityharu.innerHTML += students[i].fields.uni + "<br>";
+        email.innerHTML += students[i].fields.email + "<br>";
+        nameharu.innerHTML += students[i].fields.name + "<br>";
+
+
+
+      }
+
+
+    };
+    ourRequest.send();
+  });
+</script>
 {% endblock body %}
