@@ -4,37 +4,72 @@
 {% block body %}
 <link rel="stylesheet" href="../static/css/form.css">
   <div class="container">
-    <div class="title">Give Information for {{naam}}</div>
+    <div class="title">Give Information for {{roll}}</div>
     <div class="content">
       <form method="POST", action="/final">
       {% csrf_token %}
-        <div class="user-details">
+        <div class="user-details"> 
             <div class="input-box">
                 <span class="details">You have known him/her for:</span>
                 <!-- <input type="text" placeholder="Choose Professor" required> -->
                 <select name="yrs">
                   <option selected hidden>No.of years</option>
-                  <option>one year</option>
-                  <option>two year</option>
-                  <option>three year</option>
-                  <option>four year</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
                 </select>
               </div>
           
           <div class="input-box">
-            <span class="details">How was he/she:</span>
-            <select name="behaviour">
+            <span class="details">presentation skills:</span>
+            <select name="presentation">
               <option selected hidden>How?</option>
               <option>good</option>
-              <option>better</option>
-              <option>best</option>
+              <option>excellent</option>
             </select>
           </div>
 
+           <!-- <div class="input-box">
+          <span class="details">His/her Qualities</span>
+          <select multiple name="quality[]" class='form-control'>
+            <option selected hidden>Qualities</option>
+            <option>Leadership</option>
+            <option>Teamwork</option>
+            <option>Confident</option>
+            <option value='Well-spoken'>Well-spoken</option>
+          </select>
+        </div> -->
+        <div class="input-box">
+          <span class="details">His/her Qualities</span>
+          <input type="text" name="quality1">
+          <input type="text" name="quality2">
+        </div> 
+
+        <div class="input-box">
+          <span class="details">Extracirricular Activities</span>
+          <select name="eca">
+            <option>yes</option>
+            <option>no</option>
+          </select>
+        </div>
+
+        <div class="input-box">
+          <span class="details">Project Details</span>
+          <input type="text" name="project">
+        </div> 
+
+        <div class="input-box">
+          <span class="details">Paper Published</span>
+          <select name="paper">
+            <option>yes</option>
+            <option>no</option>
+          </select>
+        </div>
+
           <div class="input-box">
-            <input type="hidden" value="{{naam}}" name="name" readonly>
-          </div>
-         
+            <input type="hidden" value="{{roll}}" name="roll" readonly>
+          </div> 
           <!-- <div class="gender-details">
           <input type="radio" name="gender" id="dot-1">
           <input type="radio" name="gender" id="dot-2">

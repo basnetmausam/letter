@@ -6,3 +6,4 @@ admin.site.register(StudentLoginInfo)
 admin.site.register(StudentData)
 admin.site.register(TeacherInfo)
 
+
