@@ -1,6 +1,7 @@
 import datetime
 from django.db.models.fields import DateTimeField
-from django.shortcuts import render , redirect,get_object_or_404
+from django.http.response import HttpResponseRedirect
+from django.shortcuts import render , redirect,get_object_or_404, render_to_response
 
 from django.contrib.auth.models import User
 
@@ -11,7 +12,7 @@ from .models import StudentLoginInfo, StudentData,TeacherInfo
 from django.contrib import messages
 
 # imports from xhtml
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 
@@ -199,7 +200,7 @@ def loginTeacher(request):
                     # to convert database to json objects
                 std_dataharu=serializers.serialize("json",StudentData.objects.filter( professor__unique_id=unique))
                 
-                return render(request, 'Teacher.html',{'student_list':dataharu,'check_value':check_value,'std_dataharu':std_dataharu})
+                return render_to_response(request, 'Teacher.html',{'student_list':dataharu,'check_value':check_value,'std_dataharu':std_dataharu})
         # A backend authenticated the credentials
             else:
         # No backend authenticated the credentials
@@ -212,13 +213,11 @@ def loginTeacher(request):
     return render(request, 'loginTeacher.html')
     
 
-    
-
-
 
 def logoutUser(request):
     logout(request)
-    return redirect("/login")
+    return redirect("/")
+
 
 def forgotPassword(request):
     #generating otp so that it is generated only once 

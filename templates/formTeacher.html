@@ -1,4 +1,5 @@
-{% extends 'base.html' %}
+{% extends 'baseTeacher.html' %}
+
 {% block title %}Request{% endblock title %}
 
 {% block body %}
@@ -6,7 +7,7 @@
   <div class="container">
     <div class="title">Give Information for {{roll}}</div>
     <div class="content">
-      <form method="POST", action="/final">
+      <form method="POST", action="/final" target="_blank">
       {% csrf_token %}
         <div class="user-details"> 
             <div class="input-box">
@@ -93,6 +94,7 @@
           <div class="button">
             <input type="submit" value="Submit">
           </div>
+       
       </form>
     </div>
   </div>
