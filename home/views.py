@@ -1,10 +1,9 @@
 import datetime
 from django.db.models.fields import DateTimeField
 from django.shortcuts import render , redirect,get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.models import User
-
-
 from django.contrib.auth import logout , authenticate , login
 from django.contrib.auth.forms import AuthenticationForm
 from .models import StudentLoginInfo, StudentData,TeacherInfo
@@ -144,13 +143,16 @@ def loginStudent(request):
             return render(request, 'loginStudent.html')
     return render(request, 'loginStudent.html')
 
+@login_required(login_url='/loginTeacher')
 def make_letter(request):
     if request.method=="POST":
         roll=request.POST.get('roll')
     
-    stu = StudentLoginInfo.objects.get(roll_number=roll)
+        stu = StudentLoginInfo.objects.get(roll_number=roll)
+        student = StudentData.objects.get(name=stu.username)
+        teacher_name =student.professor.name
     
-    return render(request, 'formTeacher.html',{'naam':stu.username , 'roll':roll})
+        return render(request, 'formTeacher.html',{'naam':stu.username , 'roll':roll,'teacher':teacher_name})
 
 
 
@@ -185,6 +187,7 @@ def loginTeacher(request):
                 full_name = request.user.get_full_name()
                 x = full_name.split("/")
                 unique=x[-1]
+                name = x[0]
                 dataharu = StudentData.objects.filter( professor__unique_id=unique)
 
                 #to check if there is request or not on teachers page
@@ -198,8 +201,23 @@ def loginTeacher(request):
                     check_value=False
                     # to convert database to json objects
                 std_dataharu=serializers.serialize("json",StudentData.objects.filter( professor__unique_id=unique))
+
+                global val1
+                def val1():
+                    return std_dataharu
                 
-                return render(request, 'Teacher.html',{'student_list':dataharu,'check_value':check_value,'std_dataharu':std_dataharu})
+                global val2
+                def val2():
+                    return dataharu
+                
+                global val3
+                def val3():
+                    return check_value
+                
+                global val4
+                def val4():
+                    return name
+                return redirect(teacher)
         # A backend authenticated the credentials
             else:
         # No backend authenticated the credentials
@@ -212,13 +230,17 @@ def loginTeacher(request):
     return render(request, 'loginTeacher.html')
     
 
-    
+@login_required(login_url='/loginTeacher')
+def teacher(request):
+    return render(request, 'Teacher.html',{'student_list':val2(),'check_value':val3(),'std_dataharu':val1(),'teacher_name':val4()})
+
+
 
 
 
 def logoutUser(request):
     logout(request)
-    return redirect("/login")
+    return redirect("/")
 
 def forgotPassword(request):
     #generating otp so that it is generated only once 
@@ -337,4 +359,5 @@ def feedback(request):
 
         mail_admins("Feedback", message, fail_silently=False, connection=None, html_message=None)
         send_mail("Reply From Recoomendation Letter Team", "Thank you for your feedback. We will get back to you soon.", " christronaldo9090909@gmail.com",[email],fail_silently=False)
-    return render(request, 'contact.html')
+        messages.success(request, 'Your message has been sent.')
+        return render(request, 'contact.html')

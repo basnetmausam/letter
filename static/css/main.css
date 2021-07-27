@@ -170,7 +170,7 @@ iframe {
 
 .container-login100 {
   width: 100%;  
-  min-height: 100vh;
+  min-height: 90vh;
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -423,10 +423,11 @@ input.input100 {
   justify-content: center;
   align-items: center;
   padding: 20px 20px;
-  min-width: 160px;
-  height: 50px;
-  background-color: #c36cbb;
-  border-radius: 25px;
+  min-width: 130px;
+  font-size: 20px;
+  height: 45px;
+  background-color: #6bba78;
+  border-radius: 5px;
   
   font-family: Poppins-Regular;
   font-size: 16px;
@@ -437,6 +438,7 @@ input.input100 {
   -o-transition: all 0.4s;
   -moz-transition: all 0.4s;
   transition: all 0.4s;
+  text-decoration: none;
 }
 
 .login100-form-btn:hover {
