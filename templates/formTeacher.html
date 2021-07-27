@@ -1,28 +1,81 @@
-{% extends 'base.html' %}
-{% block title %}Request{% endblock title %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block body %}
-<link rel="stylesheet" href="../static/css/form.css">
+<head>
+  <title>Make | Letter</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,500&display=swap" rel="stylesheet" />
+  <!--===============================================================================================-->
+  <link rel="icon" type="image/png" href="static/images/tu.png" />
+
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+  <link rel="stylesheet" href="../static/css/style.css" />
+
+
+
+
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+    <div class="container-fluid">
+      <a class="navbar-brand">
+        <img src="../static/images/tu.png" width="35" height="35" class="d-inline-block align-top" alt="">
+        IOE | Pulchowk Campus
+        <br>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Recommendation Letter Generator</p>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <p>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </p>
+          <li class="nav-item">
+            <a>
+              <h5>[{{teacher}}]&nbsp;&nbsp;&nbsp;</h5>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="logout">
+              <h5>Logout</h5>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
   <div class="container">
     <div class="title">Give Information for {{roll}}</div>
     <div class="content">
-      <form method="POST", action="/final">
-      {% csrf_token %}
-        <div class="user-details"> 
-            <div class="input-box">
-                <span class="details">You have known him/her for:</span>
-                <!-- <input type="text" placeholder="Choose Professor" required> -->
-                <select name="yrs">
-                  <option selected hidden>No.of years</option>
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                </select>
-              </div>
-          
+      <form method="POST" , action="/final" target="_blank">
+        {% csrf_token %}
+        <div class="user-details">
           <div class="input-box">
-            <span class="details">presentation skills:</span>
+            <span class="details">You have known him/her for:</span>
+            <!-- <input type="text" placeholder="Choose Professor" required> -->
+            <select name="yrs">
+              <option selected hidden>No.of years</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+            </select>
+          </div>
+
+          <div class="input-box">
+            <span class="details">Presentation skills:</span>
             <select name="presentation">
               <option selected hidden>How?</option>
               <option>good</option>
@@ -30,7 +83,7 @@
             </select>
           </div>
 
-           <!-- <div class="input-box">
+          <!-- <div class="input-box">
           <span class="details">His/her Qualities</span>
           <select multiple name="quality[]" class='form-control'>
             <option selected hidden>Qualities</option>
@@ -40,62 +93,57 @@
             <option value='Well-spoken'>Well-spoken</option>
           </select>
         </div> -->
-        <div class="input-box">
-          <span class="details">His/her Qualities</span>
-          <input type="text" name="quality1">
-          <input type="text" name="quality2">
-        </div> 
-
-        <div class="input-box">
-          <span class="details">Extracirricular Activities</span>
-          <select name="eca">
-            <option>yes</option>
-            <option>no</option>
-          </select>
-        </div>
-
-        <div class="input-box">
-          <span class="details">Project Details</span>
-          <input type="text" name="project">
-        </div> 
-
-        <div class="input-box">
-          <span class="details">Paper Published</span>
-          <select name="paper">
-            <option>yes</option>
-            <option>no</option>
-          </select>
-        </div>
+          
 
           <div class="input-box">
-            <input type="hidden" value="{{roll}}" name="roll" readonly>
-          </div> 
-          <!-- <div class="gender-details">
-          <input type="radio" name="gender" id="dot-1">
-          <input type="radio" name="gender" id="dot-2">
-          <input type="radio" name="gender" id="dot-3">
-          <span class="gender-title">Gender</span>
-          <div class="category">
-            <label for="dot-1">
-            <span class="dot one"></span>
-            <span class="gender">Male</span>
-          </label>
-          <label for="dot-2">
-            <span class="dot two"></span>
-            <span class="gender">Female</span>
-          </label>
-          <label for="dot-3">
-            <span class="dot three"></span>
-            <span class="gender">Prefer not to say</span>
-            </label>
+            <span class="details">Extracirricular Activities</span>
+            <select name="eca">
+              <option>yes</option>
+              <option>no</option>
+            </select>
           </div>
-        </div> -->
-          <div class="button">
-            <input type="submit" value="Submit">
+
+          <div class="input-box">
+            <span class="details">Paper Published</span>
+            <select name="paper">
+              <option>yes</option>
+              <option>no</option>
+            </select>
           </div>
+          {% comment %} <div class="input-box">
+            <span class="details">His/her Qualities</span>
+            <input type="text" name="quality1">
+            <input type="text" name="quality2">
+          </div> {% endcomment %}
+          <div class="gender-details">
+            <span class="gender-title">Qualities</span>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Leadership" name="quality1" id="flexCheckDefault">
+              <label class="form-check-label" for="flexCheckDefault">
+                Leadership
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="quality2" value="Social" id="flexCheckDefault">
+              <label class="form-check-label" for="flexCheckDefault">
+                Social
+              </label>
+            </div>
+            <div class="input-box">
+              <input type="hidden" value="{{roll}}" name="roll" readonly>
+            </div>
+            <div class="button">
+              <input type="submit" value="Submit " onclick="history.back()">
+            </div>
+          </div>
+          <div class="input-box">
+            <span class="details">Project Details</span>
+            <input type="text" name="project">
+          </div>
+          
       </form>
     </div>
   </div>
-</body> {% endblock body %}
-</html>
+</body>
 
+</html>
