@@ -189,7 +189,7 @@ def loginTeacher(request):
                 unique=x[-1]
                 name = x[0]
                 dataharu = StudentData.objects.filter( professor__unique_id=unique)
-
+                number=len(dataharu)
                 #to check if there is request or not on teachers page
                 for data in dataharu:
                     if data.is_generated:
@@ -217,6 +217,10 @@ def loginTeacher(request):
                 global val4
                 def val4():
                     return name
+
+                global val5
+                def val5():
+                    return number
                 return redirect(teacher)
         # A backend authenticated the credentials
             else:
@@ -232,7 +236,7 @@ def loginTeacher(request):
 
 @login_required(login_url='/loginTeacher')
 def teacher(request):
-    return render(request, 'Teacher.html',{'student_list':val2(),'check_value':val3(),'std_dataharu':val1(),'teacher_name':val4()})
+    return render(request, 'Teacher.html',{'student_list':val2(),'check_value':val3(),'teacher_number':val5(),'std_dataharu':val1(),'teacher_name':val4()})
 
 
 
