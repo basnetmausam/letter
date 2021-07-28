@@ -336,6 +336,10 @@ iframe {
 }
 
 
+table.hide-table{
+  display: none;
+}
+
 /*---------------------------------------------*/
 input.input100 {
   height: 45px;
