@@ -206,35 +206,40 @@ def loginTeacher(request):
                     check_value=False
                     # to convert database to json objects
                 std_dataharu=serializers.serialize("json",StudentData.objects.filter( professor__unique_id=unique))
+                non_generated = StudentData.objects.filter(is_generated=False , professor__unique_id=unique)
 
-                global val1
-                def val1():
-                    return std_dataharu
+                # global val1
+                # def val1():
+                #     return std_dataharu
                 
-                global val2
-                def val2():
-                    return dataharu
+                # global val2
+                # def val2():
+                #     return dataharu
                 
-                global val3
-                def val3():
-                    return check_value
+                # global val3
+                # def val3():
+                #     return check_value
                 
-                global val4
-                def val4():
-                    return name
+                # global val4
+                # def val4():
+                #     return name
 
-                global val5
-                def val5():
-                    return number
+                # global val5
+                # def val5():
+                #     return number
 
-                global val6
-                def val6():
-                    return unique
+                # global val6
+                # def val6():
+                #     return unique
 
-                global val7
-                def val7():
-                    return user
-                return redirect(teacher)
+                # global val7
+                # def val7():
+                #     return user
+                response=render(request, 'Teacher.html',{'all_students':dataharu,'student_list':non_generated,'check_value':check_value,'teacher_number':number,'std_dataharu':std_dataharu,'teacher_name':name})
+                response.set_cookie('unique',unique)
+                response.set_cookie('username',user.username)
+
+                return response
         # A backend authenticated the credentials
             else:
         # No backend authenticated the credentials
@@ -247,13 +252,13 @@ def loginTeacher(request):
     return render(request, 'loginTeacher.html')
     
 
-@login_required(login_url='/loginTeacher')
-def teacher(request):
-    response=render(request, 'Teacher.html',{'student_list':val2(),'check_value':val3(),'teacher_number':val5(),'std_dataharu':val1(),'teacher_name':val4()})
-    response.set_cookie('unique',val6())
-    response.set_cookie('username',val7().username)
+# @login_required(login_url='/loginTeacher')
+# def teacher(request):
+#     response=render(request, 'Teacher.html',{'student_list':val2(),'check_value':val3(),'teacher_number':val5(),'std_dataharu':val1(),'teacher_name':val4()})
+#     response.set_cookie('unique',val6())
+#     response.set_cookie('username',val7().username)
 
-    return response
+#     return response
 
 
 
