@@ -23,7 +23,7 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+<nav class="navbar navbar-expand-lg navbar-light bg-transparent">
     <div class="container-fluid">
       <a class="navbar-brand">
         <img src="../static/images/tu.png" width="35" height="35" class="d-inline-block align-top" alt="">
@@ -43,7 +43,15 @@
             <a ><h5>[{{teacher_name}}]&nbsp;&nbsp;&nbsp;</h5></a>
           </li>
            <li class="nav-item">
-            <a href="logout"><h5>Logout</h5></a>
+            <a href="userDetails"><h5>User Details</h5></a>
+          </li>
+          <br>
+           <li class="nav-item"style="margin-left:10px;">
+                                  
+            <a href="logout" > 
+
+              <h5> Logout</h5>
+            </a>
           </li>
         </ul>
       </div>
@@ -116,7 +124,6 @@
         </tbody>
       </table>
     </div> 
-
 
 
 
@@ -212,7 +219,7 @@ clickCounter=0;
     
     else if(clickCounter%2!=0){
     tablee.classList.add("hide-table") 
-    
+    console.log("click")
     }
 
   //this is to show only table without loading ajax again
