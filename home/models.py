@@ -20,6 +20,7 @@ class TeacherInfo(models.Model):
     phone = models.CharField(max_length=15)
     email = models.EmailField()
     department = models.CharField(max_length=100 , default="null")
+    images = models.ImageField(upload_to='images/', blank=True, default="cute_baby.gif")
 
 
     def __str__(self):

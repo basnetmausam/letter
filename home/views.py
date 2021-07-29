@@ -3,6 +3,9 @@ from django.db.models.fields import DateTimeField
 from django.shortcuts import render , redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required
 
+# check old password and new password
+from django.contrib.auth.hashers import check_password
+
 from django.contrib.auth.models import User
 from django.contrib.auth import logout , authenticate , login
 from django.contrib.auth.forms import AuthenticationForm
@@ -183,11 +186,13 @@ def loginTeacher(request):
         if User.objects.filter(username__exact=usern).exists():
             user = authenticate(username=usern, password=passwo)
             if user is not None:
+                
                 login(request,user)
                 full_name = request.user.get_full_name()
                 x = full_name.split("/")
                 unique=x[-1]
                 name = x[0]
+
                 dataharu = StudentData.objects.filter( professor__unique_id=unique)
                 number=len(dataharu)
                 #to check if there is request or not on teachers page
@@ -221,6 +226,14 @@ def loginTeacher(request):
                 global val5
                 def val5():
                     return number
+
+                global val6
+                def val6():
+                    return unique
+
+                global val7
+                def val7():
+                    return user
                 return redirect(teacher)
         # A backend authenticated the credentials
             else:
@@ -236,8 +249,11 @@ def loginTeacher(request):
 
 @login_required(login_url='/loginTeacher')
 def teacher(request):
-    return render(request, 'Teacher.html',{'student_list':val2(),'check_value':val3(),'teacher_number':val5(),'std_dataharu':val1(),'teacher_name':val4()})
+    response=render(request, 'Teacher.html',{'student_list':val2(),'check_value':val3(),'teacher_number':val5(),'std_dataharu':val1(),'teacher_name':val4()})
+    response.set_cookie('unique',val6())
+    response.set_cookie('username',val7().username)
 
+    return response
 
 
 
@@ -253,6 +269,28 @@ def forgotPassword(request):
     response.set_cookie('OTP_value',OTP_value)
     return response
 
+def forgotUsername(request):
+    #generating otp so that it is generated only once 
+    OTP_value=OTP_generator(5)
+    response= render(request, 'forgotUsername.html')
+    response.set_cookie('OTP_value',OTP_value)
+    return response
+
+
+# check email of username is valid or not
+def checkEmail(request):
+    if request.method=="POST":
+
+        email=request.POST.get('user_email')
+        if User.objects.filter(email__exact=email).exists():
+            user = User.objects.get(email__exact=email)
+            send_mail('UserName ', 'Your username  is '+user.username,'christronaldo9090909@gmail.com',  [email], fail_silently=False)
+            messages.success(request, 'Username has been sent to your gmail.')
+            return redirect('loginTeacher')
+        else:
+            messages.error(request, 'Email is not registered.')
+            return redirect('loginTeacher')
+    return redirect('loginTeacher')
 
 
 # OTP
@@ -263,7 +301,6 @@ def otp(request):
 
         sir= User.objects.get(username = Usernaam)
         full_name = sir.get_full_name()
-        print(full_name)
         x=full_name.split("/")
         name=x[0]
         id=x[-1]
@@ -279,7 +316,7 @@ def otp(request):
             #making cookies to store and send them to other view page
             
             response.set_cookie('teacher_ko_naam',master)
-            response.set_cookie('teacher_ko_username',Usernaam)
+            response.set_cookie('teacher_ko_user',Usernaam)
             return response
 
 
@@ -321,7 +358,7 @@ def changePassword(request):
       
     if password1==password2:
         #Teacher ko Username using cookies from 'otp' view page
-        teacher_ko_user_naam=request.COOKIES.get('teacher_ko_username')
+        teacher_ko_user_naam=request.COOKIES.get('teacher_ko_user')
 
         #changing Pwd
         usr = User.objects.get(username=teacher_ko_user_naam)
@@ -365,3 +402,86 @@ def feedback(request):
         send_mail("Reply From Recoomendation Letter Team", "Thank you for your feedback. We will get back to you soon.", " christronaldo9090909@gmail.com",[email],fail_silently=False)
         messages.success(request, 'Your message has been sent.')
         return render(request, 'contact.html')
+
+def userDetails(request):
+        unique=request.COOKIES.get('unique')
+        teacherkonam=TeacherInfo.objects.get(unique_id=unique)  
+        username=request.COOKIES.get('username')
+       
+        return render(request, 'userDetails.html',{'teacher_username':username,'teacher':teacherkonam})
+       
+       
+
+def profileUpdate(request):
+      unique=request.COOKIES.get('unique')
+      teacherkonam=TeacherInfo.objects.get(unique_id=unique) 
+
+      return render(request, 'profileUpdate.html',{'teacher':teacherkonam})
+
+
+def profileUpdateRequest(request):
+    unique=request.COOKIES.get('unique')
+
+    if request.method=="POST":
+        photo=request.FILES['file']
+     
+        # TeacherInfo.objects.filter(unique_id=unique).update(images=photo)
+
+        teacherkonam=TeacherInfo.objects.get(unique_id=unique)  
+        teacherkonam.images=photo
+        teacherkonam.save()
+        # teacherkonam=TeacherInfo(unique_id=unique,images=photo,name="hello")
+        # teacherkonam.save()
+    return render(request, 'profileUpdate.html',{'teacher':teacherkonam})
+
+
+def changeUsername(request):
+    if request.method=="POST":
+        old_username=request.POST.get('old_username')
+        new_username=request.POST.get('new_username')
+        
+        if User.objects.filter(username=old_username).exists():
+            if User.objects.filter(username=new_username).exists():
+                messages.error(request, 'Username already exists.')
+                return redirect(userDetails)
+                
+            user = User.objects.get(username = old_username)
+            user.username = new_username
+            user.save()
+            messages.success(request, 'Username has been changed successfully.')
+            return redirect(loginTeacher)
+        else:
+            messages.error(request, 'No such username exists. ')
+    return redirect(userDetails)
+
+
+# to change the password of the corresponding user within website
+@login_required(login_url='/loginTeacher')
+def userPasswordChange(request):
+    if request.method=="POST":
+        typed_password=request.POST.get('old_password')
+        new_password=request.POST.get('new_password')
+        confirm_password=request.POST.get('confirm_password')
+
+        # to obtain old password,
+        user = User.objects.get(username = request.COOKIES.get('username'))
+        current_password= request.user.password 
+
+        # confirming typed old password is true or not
+        old_new_check=check_password(typed_password,  current_password)
+        if old_new_check:
+            if new_password==confirm_password:
+                user = User.objects.get(username = request.COOKIES.get('username'))
+                user.set_password(new_password)
+                user.save()
+                messages.success(request, 'Password has been changed successfully.')
+                return redirect(loginTeacher)
+            else:
+                messages.error(request, 'Password does not match.')
+                return redirect(userDetails)
+        else:
+            messages.error(request, 'Old Password didnt match')
+            return redirect(userDetails)
+
+
+

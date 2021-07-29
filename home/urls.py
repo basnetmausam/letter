@@ -20,6 +20,21 @@ urlpatterns = [
     path('feedback', views.feedback, name='feedback'),
     path('about', views.about, name='about'),
     path('teacher', views.teacher, name='teacher'),
+    path('userDetails', views.userDetails, name='userDetails'),
+    path('profileUpdate', views.profileUpdate, name='profileUpdate'),
+    path('profileUpdateRequest', views.profileUpdateRequest, name='profileUpdateRequest'),
+    path('changeUsername', views.changeUsername, name='changeUsername'),
+    path('userPasswordChange', views.userPasswordChange, name='userPasswordChange'),
+    path('forgotUsername', views.forgotUsername, name='forgotUsername'),
+    path('checkEmail', views.checkEmail, name='checkEmail'),
+
+
+
+
+
+
+
+
 
 
 
