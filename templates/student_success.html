@@ -4,13 +4,15 @@
 {% block body %}
 
 {% if letter%}
-<h2>Here is your letter</h2>
+<center><img src="../static/images/notification.png" style="width:20%" /></center>
+<h1 style="text-align:center">Here is your letter.</h1>
+
 
 <form action='/studentfinal' method='POST'>
     {% csrf_token %}
 
-    <div class="container-login100-form-btn">
-        <button class="login100-form-btn" target="blank" type='submit' value="{{roll}}" name="roll">
+   <div class="container-login100-form-btn">
+        <button class="login100-form-btn mx-auto d-block" target="blank" type='submit' value="{{roll}}" name="roll">
             Download
         </button>
     </div>
@@ -19,7 +21,7 @@
 </form>
 {% else %}
 <br>
-<center><img src="../static/images/requested.png" style="width:20%" /><center/>
+<center><img src="../static/images/requested.png" style="width:20%" /></center>
 <h1 style="text-align:center">Your request has been successfully submitted.</h1>
 <p style="text-align:center;font-size:18px;"><br>You will have your letter here when professor provides it.<br>Don't worry you'll receive an email once done. </p>
 {% endif %}
