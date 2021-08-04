@@ -27,6 +27,12 @@ urlpatterns = [
     path('userPasswordChange', views.userPasswordChange, name='userPasswordChange'),
     path('forgotUsername', views.forgotUsername, name='forgotUsername'),
     path('checkEmail', views.checkEmail, name='checkEmail'),
+    path('changeTitle', views.changeTitle, name='changeTitle'),
+    path('changePhone', views.changePhone, name='changePhone'),
+    path('changeEmail', views.changeEmail, name='changeEmail'),
+
+
+
 
 
 

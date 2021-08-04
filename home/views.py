@@ -150,12 +150,16 @@ def loginStudent(request):
 def make_letter(request):
     if request.method=="POST":
         roll=request.POST.get('roll')
+       
     
+        teacher_id=request.COOKIES.get('unique')
+        teacher_model=TeacherInfo.objects.get(unique_id=teacher_id)
+
         stu = StudentLoginInfo.objects.get(roll_number=roll)
         student = StudentData.objects.get(name=stu.username)
         teacher_name =student.professor.name
     
-        return render(request, 'formTeacher.html',{'naam':stu.username , 'roll':roll,'teacher':teacher_name})
+        return render(request, 'formTeacher.html',{'naam':stu.username , 'roll':roll,'teacher':teacher_name,'teacher_model':teacher_model})
 
 
 
@@ -191,8 +195,9 @@ def loginTeacher(request):
                 full_name = request.user.get_full_name()
                 x = full_name.split("/")
                 unique=x[-1]
-                name = x[0]
+                # name = x[0]
 
+                teacher_model=TeacherInfo.objects.get(unique_id=unique)
                 dataharu = StudentData.objects.filter( professor__unique_id=unique)
                 number=len(dataharu)
                 #to check if there is request or not on teachers page
@@ -208,34 +213,7 @@ def loginTeacher(request):
                 std_dataharu=serializers.serialize("json",StudentData.objects.filter( professor__unique_id=unique))
                 non_generated = StudentData.objects.filter(is_generated=False , professor__unique_id=unique)
 
-                # global val1
-                # def val1():
-                #     return std_dataharu
-                
-                # global val2
-                # def val2():
-                #     return dataharu
-                
-                # global val3
-                # def val3():
-                #     return check_value
-                
-                # global val4
-                # def val4():
-                #     return name
-
-                # global val5
-                # def val5():
-                #     return number
-
-                # global val6
-                # def val6():
-                #     return unique
-
-                # global val7
-                # def val7():
-                #     return user
-                response=render(request, 'Teacher.html',{'all_students':dataharu,'student_list':non_generated,'check_value':check_value,'teacher_number':number,'std_dataharu':std_dataharu,'teacher_name':name})
+                response=render(request, 'Teacher.html',{'all_students':dataharu,'student_list':non_generated,'check_value':check_value,'teacher_number':number,'std_dataharu':std_dataharu,'teacher_model':teacher_model})
                 response.set_cookie('unique',unique)
                 response.set_cookie('username',user.username)
 
@@ -252,13 +230,7 @@ def loginTeacher(request):
     return render(request, 'loginTeacher.html')
     
 
-# @login_required(login_url='/loginTeacher')
-# def teacher(request):
-#     response=render(request, 'Teacher.html',{'student_list':val2(),'check_value':val3(),'teacher_number':val5(),'std_dataharu':val1(),'teacher_name':val4()})
-#     response.set_cookie('unique',val6())
-#     response.set_cookie('username',val7().username)
 
-#     return response
 
 
 
@@ -303,31 +275,37 @@ def otp(request):
     
     if request.method=="POST"  :
         Usernaam=request.POST.get('username')
+        if User.objects.filter(username = Usernaam).exists():
+            sir= User.objects.get(username = Usernaam)
+            full_name = sir.get_full_name()
+            x=full_name.split("/")
+            name=x[0]
+            id=x[-1]
+            
+            if TeacherInfo.objects.filter(unique_id=id).exists():
+                master = TeacherInfo.objects.get(unique_id=id)
+                
+                OTP_value=request.COOKIES.get('OTP_value')
+            
+                send_mail('OTP ', 'Your OTP for Recoomendation Letter is '+ str(OTP_value),'christronaldo9090909@gmail.com',  [master.email], fail_silently=False)
+                
+                response= render(request, 'otp.html',{'teacherkonam':master,'OTP_value':OTP_value})
+                #making cookies to store and send them to other view page
+                
+                response.set_cookie('teacher_ko_naam',master)
+                response.set_cookie('teacher_ko_user',Usernaam)
+                return response
 
-        sir= User.objects.get(username = Usernaam)
-        full_name = sir.get_full_name()
-        x=full_name.split("/")
-        name=x[0]
-        id=x[-1]
+            else:
+                messages.error(request, 'Sorry You are not registered as a Professor.')
+                return render(request, 'loginTeacher.html')
         
-        if TeacherInfo.objects.filter(unique_id=id).exists():
-            master = TeacherInfo.objects.get(unique_id=id)
-            
-            OTP_value=request.COOKIES.get('OTP_value')
-           
-            send_mail('OTP ', 'Your OTP for Recoomendation Letter is '+ str(OTP_value),'christronaldo9090909@gmail.com',  [master.email], fail_silently=False)
-              
-            response= render(request, 'otp.html',{'teacherkonam':master,'OTP_value':OTP_value})
-            #making cookies to store and send them to other view page
-            
-            response.set_cookie('teacher_ko_naam',master)
-            response.set_cookie('teacher_ko_user',Usernaam)
-            return response
 
 
         else:
             messages.error(request, 'Sorry You are not registered as a Professor.')
             return render(request, 'loginTeacher.html')
+        
     
 # Otp check
 def OTP_check(request):
@@ -411,8 +389,9 @@ def feedback(request):
 def userDetails(request):
         unique=request.COOKIES.get('unique')
         teacherkonam=TeacherInfo.objects.get(unique_id=unique)  
-        username=request.COOKIES.get('username')
-       
+        email=teacherkonam.email
+        username=User.objects.get(email=email)
+
         return render(request, 'userDetails.html',{'teacher_username':username,'teacher':teacherkonam})
        
        
@@ -435,16 +414,16 @@ def profileUpdateRequest(request):
         teacherkonam=TeacherInfo.objects.get(unique_id=unique)  
         teacherkonam.images=photo
         teacherkonam.save()
-        # teacherkonam=TeacherInfo(unique_id=unique,images=photo,name="hello")
-        # teacherkonam.save()
-    return render(request, 'profileUpdate.html',{'teacher':teacherkonam})
+      
+    return render(request, 'userDetails.html',{'teacher':teacherkonam})
 
 
 def changeUsername(request):
     if request.method=="POST":
         old_username=request.POST.get('old_username')
         new_username=request.POST.get('new_username')
-        
+       
+
         if User.objects.filter(username=old_username).exists():
             if User.objects.filter(username=new_username).exists():
                 messages.error(request, 'Username already exists.')
@@ -454,7 +433,7 @@ def changeUsername(request):
             user.username = new_username
             user.save()
             messages.success(request, 'Username has been changed successfully.')
-            return redirect(loginTeacher)
+            return redirect(userDetails)
         else:
             messages.error(request, 'No such username exists. ')
     return redirect(userDetails)
@@ -490,3 +469,87 @@ def userPasswordChange(request):
 
 
 
+
+def changeTitle(request):
+    if request.method=="POST":
+        new_title=request.POST.get('new_title')
+        usernaam=request.COOKIES.get('username')
+
+        user = User.objects.get(username =usernaam )
+        full_name = user.get_full_name()
+        x = full_name.split("/")
+       
+        unique=x[-1]
+        
+        if TeacherInfo.objects.filter(unique_id=unique).exists():
+            teacher=TeacherInfo.objects.get(unique_id=unique)
+            teacher.title=new_title
+            teacher.save()
+            
+            messages.success(request, 'Title has been changed successfully.')
+            return redirect(userDetails)
+        else:
+            messages.error(request, 'No such Teacher exists. ')
+            return redirect(userDetails)
+
+     
+    return redirect(userDetails)
+
+
+def changePhone(request):
+    if request.method=="POST":
+        new_phone=request.POST.get('new_phone')
+        usernaam=request.COOKIES.get('username')
+
+        user = User.objects.get(username =usernaam )
+        full_name = user.get_full_name()
+        x = full_name.split("/")
+       
+        unique=x[-1]
+        
+        if TeacherInfo.objects.filter(unique_id=unique).exists():
+            teacher=TeacherInfo.objects.get(unique_id=unique)
+            teacher.phone=new_phone
+            teacher.save()
+            
+            messages.success(request, 'Phone Number has been changed successfully.')
+            return redirect(userDetails)
+        else:
+            messages.error(request, 'No such Teacher exists. ')
+            return redirect(userDetails)
+
+     
+    return redirect(userDetails)
+
+
+
+def changeEmail(request):
+    if request.method=="POST":
+        new_email=request.POST.get('new_email')
+        usernaam=request.COOKIES.get('username')
+
+        user = User.objects.get(username =usernaam )
+        full_name = user.get_full_name()
+        x = full_name.split("/")
+        
+        unique=x[-1]
+        
+        if TeacherInfo.objects.filter(unique_id=unique).exists():
+            teacher=TeacherInfo.objects.get(unique_id=unique)
+            teacher.email=new_email
+            teacher.save()
+            
+            
+            user = User.objects.get(username =usernaam )
+            user.email=new_email
+            user.save()
+
+
+            messages.success(request, 'Phone Number has been changed successfully.')
+            return redirect(userDetails)
+        else:
+            messages.error(request, 'No such Teacher exists. ')
+            return redirect(userDetails)
+
+        
+    return redirect(userDetails)

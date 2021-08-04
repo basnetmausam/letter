@@ -1,8 +1,9 @@
 {% extends 'base2.html' %}
 
 {% block title %}Requests{% endblock title %}
+{% block teacher %}<img src="{{teacher_model.images.url}}" style="width:60px;height:60px; border-radius: 50%;" >{% endblock teacher %}
+
 {% block body %}
-{% block teacher %}{{teacher_name}}{% endblock teacher %}
 <h1 style="text-align:center"><br><u> Requests:</u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-primary" onClick="window.location.reload()">Refresh</button></h1>
 
 <div class="container-fluid">
