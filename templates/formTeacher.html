@@ -10,17 +10,7 @@
       <form method="POST" , action="/final" target="_blank">
         {% csrf_token %}
         <div class="user-details">
-          <div class="input-box">
-            <span class="details">You have known him/her for:</span>
-            <!-- <input type="text" placeholder="Choose Professor" required> -->
-            <select name="yrs">
-              <option selected hidden>No.of years</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-            </select>
-          </div>
+      
 
           <div class="input-box">
             <span class="details">Presentation skills:</span>
@@ -31,16 +21,6 @@
             </select>
           </div>
 
-          <!-- <div class="input-box">
-          <span class="details">His/her Qualities</span>
-          <select multiple name="quality[]" class='form-control'>
-            <option selected hidden>Qualities</option>
-            <option>Leadership</option>
-            <option>Teamwork</option>
-            <option>Confident</option>
-            <option value='Well-spoken'>Well-spoken</option>
-          </select>
-        </div> -->
           
 
           <div class="input-box">
@@ -51,18 +31,7 @@
             </select>
           </div>
 
-          <div class="input-box">
-            <span class="details">Paper Published</span>
-            <select name="paper">
-              <option>yes</option>
-              <option>no</option>
-            </select>
-          </div>
-          {% comment %} <div class="input-box">
-            <span class="details">His/her Qualities</span>
-            <input type="text" name="quality1">
-            <input type="text" name="quality2">
-          </div> {% endcomment %}
+
           <div class="gender-details">
             <span class="gender-title">Qualities</span>
             <div class="form-check">
@@ -81,7 +50,7 @@
               <input type="hidden" value="{{roll}}" name="roll" readonly>
             </div>
             <div class="button">
-              <input type="submit" value="Submit " onclick="history.back()">
+              <input type="submit" value="Submit">
             </div>
           </div>
           <div class="input-box">
