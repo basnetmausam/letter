@@ -2,40 +2,43 @@ from django.db import models
 from django.db.models.deletion import CASCADE
 
 class StudentLoginInfo(models.Model):
-    username = models.CharField(max_length=120)
-    roll_number = models.CharField(max_length=9)
-    department = models.CharField(max_length=100 , default="null")
-    program = models.CharField(max_length=50 , default="null")
+    username = models.CharField(max_length=120,null=True,blank=True)
+    roll_number = models.CharField(max_length=9,null=True,blank=True)
+    department = models.CharField(max_length=100 ,null=True,blank=True)
+    program = models.CharField(max_length=50 , default="null",null=True,blank=True)
     dob = models.DateField()
-    gender = models.CharField(max_length=10 , default="null")
+    gender = models.CharField(max_length=10 , default="null",null=True,blank=True)
     def __str__(self):
         return str(self.username)
 
+
+class Subject(models.Model):
+    name= models.CharField(max_length=150, blank=True,null=True)
+    def __str__(self):
+        return str(self.name)
+
+
 class TeacherInfo(models.Model):
     unique_id = models.CharField(max_length=10, null=True)
-    name = models.CharField(max_length=40)
-    title = models.CharField(max_length=30)
-    phone = models.CharField(max_length=15)
+    name = models.CharField(max_length=40,null=True,blank=True)
+    title = models.CharField(max_length=30,null=True,blank=True)
+    phone = models.CharField(max_length=15,null=True,blank=True)
     email = models.EmailField()
-    department = models.CharField(max_length=100 , default="null")
+    department = models.CharField(max_length=100 , default="null",null=True,blank=True)
     images = models.ImageField(upload_to='images/', blank=True, default="cute_baby.gif")
-    subject1 = models.CharField(max_length=100, default="null")
-    subject2 = models.CharField(max_length=100, default="null")
-    subject3 = models.CharField(max_length=100, default="null")
-    subject4 = models.CharField(max_length=100, default="null")
-    subject5 = models.CharField(max_length=100, default="null")
+    subjects = models.ManyToManyField(Subject )
 
     def __str__(self):
         return str(self.name)
 
 class StudentData(models.Model): 
-    name = models.CharField(max_length=122)
-    uni = models.CharField(max_length=122)
-    email = models.EmailField(null=True)
+    name = models.CharField(max_length=122,null=True,blank=True)
+    uni = models.CharField(max_length=122,null=True,blank=True)
+    email = models.EmailField(null=True,blank=True)
     professor = models.ForeignKey(TeacherInfo, on_delete= CASCADE)
     std = models.ForeignKey(StudentLoginInfo, on_delete= CASCADE)
     is_generated = models.BooleanField(default=False) 
-    years_taught= models.CharField(max_length=2)
+    years_taught= models.CharField(max_length=2, null=True, blank=True)
     
     gpa = models.CharField(max_length=5 ,default="null")
     is_pro = models.CharField(max_length=3,default="null")
@@ -44,14 +47,17 @@ class StudentData(models.Model):
     project2 = models.CharField(max_length=100,default="null")
     paper = models.CharField(max_length=3,default="null")
     paper_link = models.CharField(max_length=200,default="null")
+    subjects= models.CharField(max_length=500, null=True, blank=True)
+    
+
 
     # teacher side
-    presentation= models.CharField(max_length=15)
-    quality1 = models.CharField(max_length=20)
-    quality2 = models.CharField(max_length=20)
-    quality3 = models.CharField(max_length=20)
-    quality4 = models.CharField(max_length=20)
-    eca = models.CharField(max_length=3)
+    presentation= models.CharField(max_length=15,null=True,blank=True)
+    quality1 = models.CharField(max_length=20,null=True,blank=True)
+    quality2 = models.CharField(max_length=20,null=True,blank=True)
+    quality3 = models.CharField(max_length=20,null=True,blank=True)
+    quality4 = models.CharField(max_length=20,null=True,blank=True)
+    eca = models.CharField(max_length=3,null=True,blank=True)
 
     
 
