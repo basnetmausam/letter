@@ -9,8 +9,10 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User
 from django.contrib.auth import logout , authenticate , login
 from django.contrib.auth.forms import AuthenticationForm
-from .models import StudentLoginInfo, StudentData,TeacherInfo
+from .models import *
 from django.contrib import messages
+
+import json
 
 # imports from xhtml
 from django.http import HttpResponse
@@ -63,10 +65,12 @@ def final(request, *args, **kwargs):
         send_mail('Recommendation Letter', 'congratulation you recieved recommendation letter ,http://127.0.0.1:8000/loginStudent', 'christronaldo9090909@gmail.com', [student.email], fail_silently=False)
 
     
+
     template_path = 'print.html'
     context={'student':student }
     
     
+
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type='application/pdf')
 
@@ -159,7 +163,7 @@ def make_letter(request):
         student = StudentData.objects.get(name=stu.username)
         teacher_name =student.professor.name
     
-        return render(request, 'formTeacher.html',{'naam':stu.username , 'roll':roll,'teacher':teacher_name,'teacher_model':teacher_model})
+        return render(request, 'formTeacher.html',{'student':student, 'roll':roll,'teacher':teacher_name,'teacher_model':teacher_model})
 
 
 
@@ -176,16 +180,23 @@ def studentSuccess(request):
         pro2= request.POST.get('pro2')
         is_paper= request.POST.get('is_paper')
         paper= request.POST.get('paper')
-
-
-        x= uprof.split("| ")
+        subjects=Subject.objects.all()
+        bisaya=[]
+        i=0
+        for subject in subjects:
+            if request.POST.get('subject'+str(i)) is not None:
+                bisaya.append(request.POST.get('subject'+str(i)))
+            i=i+1
+        listToStr = ','.join([str(elem) for elem in bisaya]) 
+        print(listToStr)
+        x= uprof.split("|")
         id=x[-1]
         prof = TeacherInfo.objects.get(unique_id = id)
         stu = StudentLoginInfo.objects.get(roll_number = uroll)
         
         info = StudentData(name=stu.username , uni=uuni, professor=prof ,std = stu,email=uemail , 
         gpa=ugpa, is_pro = is_project, final_project=f_project, project1=pro1, project2 = pro2,
-        paper=is_paper, paper_link = paper)
+        paper=is_paper, paper_link = paper,subjects=listToStr)
         info.save()
     return render(request,"student_success.html")
 
@@ -562,3 +573,14 @@ def changeEmail(request):
 
         
     return redirect(userDetails)
+
+def getdetails(request):
+    teacher_id = json.loads(request.GET.get('d_name'))
+    result_set = []
+
+    teacher=TeacherInfo.objects.get(unique_id=teacher_id)
+    subjects=teacher.subjects.all()
+
+    for subject in subjects:
+        result_set.append({'subject_name': subject})
+    return HttpResponse(json.dumps(result_set, indent=4, sort_keys=True, default=str), content_type='application/json')

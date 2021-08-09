@@ -25,16 +25,48 @@
             <span class="details">Final Year Project:</span>
             <input type="text" name="fproject" required>
           </div>
+
+
+
           <div class="input-box">
-            <span class="details">Requesting Professor</span>
-            <!-- <input type="text" placeholder="Choose Professor" required> -->
+            <!-- <span class="details">Requesting Professor</span>
+           
             <select name="prof">
               <option selected hidden>Professor Name</option>
               {% for teacher in teachers%}
               <option>{{teacher.name}} | {{teacher.unique_id}}</option>
               {% endfor %}
+            </select> -->
+            <select name="prof" id="teacher"  >
+              <option>---</option>
+              {% for teacher in teachers %}
+              <option value="{{teacher.unique_id}}">{{teacher.name}} | {{teacher.unique_id}}</option>
+              {% endfor %}
             </select>
           </div>
+
+        
+          
+          <div class="input-box">
+          <div class="multiselect">
+          <div class="selectBox" onclick="showCheckboxes()">
+            <select name="subject" id="subject"  multiple="multiple">
+          
+            </select>
+            <div class="overSelect"></div>
+          </div>
+          <div id="checkboxes">
+            <label for="one" id="one">
+            </label> 
+            
+          </div>
+          </div>
+        </div>
+
+          
+
+
+
           <div class="input-box">
             <span class="details">final year project?</span>
             <select name="is_project">
@@ -108,5 +140,63 @@
       </form>
     </div>
   </div>
-</body>{% endblock body %}
-</html>
+
+
+
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+      $(document).ready(function(){
+          //handle selected teacher
+          $('select#teacher').change(function () {
+             
+              var optionSelected = $(this).find("option:selected");//finds selected option
+              
+              var valueSelected  = optionSelected.val();
+              var teacher_name   = valueSelected
+              
+              console.log(teacher_name)
+                  
+               $.ajax({
+                  url: '/getdetails',
+                  type: 'GET',
+                  data: { 'd_name': JSON.stringify(teacher_name )},//converting into json string
+                   success:    function(result){
+                       console.log(result)
+                                  //remove previous selections
+                               $("#subject option").remove();
+                                   //add a blank option
+                                  //  $("#teacher").append('<option id="hell"></option>');
+
+                                  $("#subject").append('<option >Select Subject</option>');//appending on the select
+
+                                   //append new options returned
+                                   $("#one label").remove();
+                                   for (var i = result.length - 1; i >= 0; i--) {
+                                 
+                                     $("#one").append( '<label> <input type="checkbox" name="subject'+[i]+'"  value="'+result[i].subject_name +'">'+result[i].subject_name+' </label>'  );//appending on the select
+                                      
+
+                                  };
+                               }
+               });
+          });
+      });
+
+  
+      var expanded = false;
+
+function showCheckboxes() {
+var checkboxes = document.getElementById("checkboxes");
+if (!expanded) {
+checkboxes.style.display = "block";
+expanded = true;
+} else {
+checkboxes.style.display = "none";
+expanded = false;
+}
+}
+     
+</script>
+
+{% endblock body %}
