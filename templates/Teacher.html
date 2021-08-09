@@ -18,7 +18,7 @@
     <h4 class="alert-heading">{{student.name}}</h4>
     <p>This person has requested you for the recommendation letter.He has gpa {{student.gpa}}</p>
     <hr>
-    <form action='/makeLetter' method='POST'>
+    <form action='/makeLetter' method='POST' target="_blank">
       {% csrf_token %}
 
       <div class="container-login100-form-btn">

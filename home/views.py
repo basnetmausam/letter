@@ -169,15 +169,24 @@ def studentSuccess(request):
         uprof= request.POST.get('prof')
         uroll= request.POST.get('roll') 
         uemail= request.POST.get('email')
+        ugpa= request.POST.get('gpa')
+        is_project= request.POST.get('is_project')
+        f_project= request.POST.get('fproject')
+        pro1= request.POST.get('pro1')
+        pro2= request.POST.get('pro2')
+        is_paper= request.POST.get('is_paper')
+        paper= request.POST.get('paper')
+
 
         x= uprof.split("| ")
         id=x[-1]
         prof = TeacherInfo.objects.get(unique_id = id)
         stu = StudentLoginInfo.objects.get(roll_number = uroll)
         
-        info = StudentData(name=stu.username , uni=uuni, professor=prof ,std = stu,email=uemail)
+        info = StudentData(name=stu.username , uni=uuni, professor=prof ,std = stu,email=uemail , 
+        gpa=ugpa, is_pro = is_project, final_project=f_project, project1=pro1, project2 = pro2,
+        paper=is_paper, paper_link = paper)
         info.save()
-        messages.success(request, 'Your message has been sent.')
     return render(request,"student_success.html")
 
 
