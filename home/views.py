@@ -159,7 +159,7 @@ def make_letter(request):
         student = StudentData.objects.get(name=stu.username)
         teacher_name =student.professor.name
     
-        return render(request, 'formTeacher.html',{'naam':stu.username , 'roll':roll,'teacher':teacher_name,'teacher_model':teacher_model})
+        return render(request, 'formTeacher.html',{'student':student, 'roll':roll,'teacher':teacher_name,'teacher_model':teacher_model})
 
 
 

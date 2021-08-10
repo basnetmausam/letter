@@ -5,8 +5,17 @@
 
 {% block body %}
   <div class="container">
-    <div class="title">Give Information for {{roll}}</div>
+    <div class="title">{{roll}} has given these informations:</div> <br>
+    <span class="details">Known Year: {{student.years_taught}}</span> <br>
+      <span class="details">Final year Project: {{student.final_project}}</span> <br>
+      <span class="details">University: {{student.uni}}</span> <br>
+      <span class="details">GPA: {{student.gpa}}</span> <br>
+      <span class="details">Other projects: {{student.project1}},{{student.project2}}</span> <br>
+      <span class="details">Paper: {{student.paper_link}}</span> <br>
+    <div class="title">Give Information for {{roll}}</div> <br>
     <div class="content">
+
+      
       <form method="POST" , action="/final" target="_blank">
         {% csrf_token %}
         <div class="user-details">
