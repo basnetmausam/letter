@@ -44,22 +44,22 @@ def gallery(request):
 def final(request, *args, **kwargs):
     if request.method=="POST":
         roll=request.POST.get('roll')
-        barsa= request.POST.get('yrs')
+       
         presentation= request.POST.get('presentation')
+        
         quality1 = request.POST.get('quality1')
         quality2 = request.POST.get('quality2')
+        quality3 = request.POST.get('quality3')
+        quality4 = request.POST.get('quality4')
         eca = request.POST.get('eca')
-        project = request.POST.get('project')
-        paper = request.POST.get('paper')
-
+        
         student = StudentData.objects.get(std__roll_number = roll)
-        student.years_taught=barsa
         student.presentation= presentation
         student.quality1 = quality1 
         student.quality2 = quality2 
+        student.quality3 = quality3 
+        student.quality4 = quality4 
         student.eca = eca
-        student.project = project 
-        student.paper = paper
         student.is_generated=True
         student.save()
         send_mail('Recommendation Letter', 'congratulation you recieved recommendation letter ,http://127.0.0.1:8000/loginStudent', 'christronaldo9090909@gmail.com', [student.email], fail_silently=False)
@@ -175,6 +175,7 @@ def studentSuccess(request):
         uemail= request.POST.get('email')
         ugpa= request.POST.get('gpa')
         is_project= request.POST.get('is_project')
+        known_year= request.POST.get('yrs')
         f_project= request.POST.get('fproject')
         pro1= request.POST.get('pro1')
         pro2= request.POST.get('pro2')
@@ -196,7 +197,7 @@ def studentSuccess(request):
         
         info = StudentData(name=stu.username , uni=uuni, professor=prof ,std = stu,email=uemail , 
         gpa=ugpa, is_pro = is_project, final_project=f_project, project1=pro1, project2 = pro2,
-        paper=is_paper, paper_link = paper,subjects=listToStr)
+        paper=is_paper, paper_link = paper,subjects=listToStr, years_taught=known_year)
         info.save()
     return render(request,"student_success.html")
 
