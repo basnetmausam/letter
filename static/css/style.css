@@ -350,20 +350,20 @@ nav {
   /* checkbox style */
 
   .multiselect {
-	width: 200px;
+	width: 100% !important;
   }
   
   .selectBox {
-	position: relative;
+	position: relative !important;
   }
   
   .selectBox select {
-	width: 100%;
-	font-weight: bold;
+	width: 100% !important;
+	/* font-weight: bold !important; */
   }
   
   .overSelect {
-	position: absolute;
+	position: absolute !important;
 	left: 0;
 	right: 0;
 	top: 0;
@@ -373,12 +373,31 @@ nav {
   #checkboxes {
 	display: none;
 	border: 1px #dadada solid;
+	
   }
   
-  #checkboxes label {
+  #checkboxes span {
 	display: block;
+	flex-direction: column;
+	justify-content: center;
+	padding: 5px;
+	padding-left: 15px;
+	text-indent: -15px;
+	
   }
   
-  #checkboxes label:hover {
-	background-color: #1e90ff;
+ 
+  #checkboxes input {
+	
+	width: 20px;
+	height: 20px;
+	padding: 0;
+	margin-right:15px;
+	vertical-align: bottom;
+	position: relative;
+	top: -1px;
+	*overflow: hidden;
   }
+  
+ 
+  

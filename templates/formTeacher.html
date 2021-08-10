@@ -28,7 +28,8 @@
             <select name="presentation">
               <option selected hidden>How?</option>
               <option>good</option>
-              <option>excellent</option>
+              <option>best</option>
+              <option>prefect</option>
             </select>
           </div>
 
@@ -37,14 +38,44 @@
           <div class="input-box">
             <span class="details">Extracirricular Activities</span>
             <select name="eca">
-              <option>yes</option>
               <option>no</option>
+              <option>good</option>
+              <option>excellent</option>
             </select>
           </div>
+          <div class="input-box">
+            <span class="details">Academics Performance:</span>
+            <select name="quality1">
+              <option>no</option>
+              <option>good</option>
+              <option>excellent</option>
+            </select>
+          </div>
+          <div class="input-box">
+            <span class="details">Qualitiy:</span>
+            <select name="quality2">
+              <option>sencire and hardworking</option>
+              <option>good</option>
+              <option>excellent</option>
+            </select>
+          </div>
+          
 
+           <div class="input-box">
+            <span class="details">Project Details</span>
+            <input type="text" name="quality3">
+          </div>
+            <div class="input-box">
+            <span class="details">Project Details</span>
+            <input type="text" name="quality4">
+          </div>
 
-          <div class="gender-details">
-            <span class="gender-title">Qualities</span>
+          <div class="input-box">
+              <input type="hidden" value="{{roll}}" name="roll" readonly>
+            </div>
+          
+          {% comment %} <div class="gender-details">
+            <span class="gender-title">Personal Qualities</span>
             <div class="form-check">
               <input class="form-check-input" type="checkbox" value="Leadership" name="quality1" id="flexCheckDefault">
               <label class="form-check-label" for="flexCheckDefault">
@@ -54,20 +85,42 @@
             <div class="form-check">
               <input class="form-check-input" type="checkbox" name="quality2" value="Social" id="flexCheckDefault">
               <label class="form-check-label" for="flexCheckDefault">
+                Hardworking
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="quality2" value="Social" id="flexCheckDefault">
+              <label class="form-check-label" for="flexCheckDefault">
                 Social
               </label>
             </div>
-            <div class="input-box">
-              <input type="hidden" value="{{roll}}" name="roll" readonly>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="quality2" value="Social" id="flexCheckDefault">
+              <label class="form-check-label" for="flexCheckDefault">
+                Internship
+              </label>
             </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="quality2" value="Social" id="flexCheckDefault">
+              <label class="form-check-label" for="flexCheckDefault">
+                Deployed his project
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="quality2" value="Social" id="flexCheckDefault">
+              <label class="form-check-label" for="flexCheckDefault">
+                Teamwork
+              </label>
+            </div> {% endcomment %}
+
+            
+            
+
             <div class="button">
               <input type="submit" value="Submit">
             </div>
-          </div>
-          <div class="input-box">
-            <span class="details">Project Details</span>
-            <input type="text" name="project">
-          </div>
+          </div> 
+          
 
       </form>
     </div>
