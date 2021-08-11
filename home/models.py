@@ -53,12 +53,23 @@ class StudentData(models.Model):
 
     # teacher side
     presentation= models.CharField(max_length=15,null=True,blank=True)
-    quality1 = models.CharField(max_length=20,null=True,blank=True)
-    quality2 = models.CharField(max_length=20,null=True,blank=True)
-    quality3 = models.CharField(max_length=20,null=True,blank=True)
-    quality4 = models.CharField(max_length=20,null=True,blank=True)
-    eca = models.CharField(max_length=3,null=True,blank=True)
+    extracirricular= models.CharField(max_length=15,null=True,blank=True)
+    academics= models.CharField(max_length=15,null=True,blank=True)
+    quality= models.CharField(max_length=15,null=True,blank=True)
 
+        #personal qualities
+    leadership = models.BooleanField(default=False) 
+    hardworking = models.BooleanField(default=False) 
+    social = models.BooleanField(default=False) 
+    teamwork = models.BooleanField(default=False) 
+    friendly = models.BooleanField(default=False) 
+    
+
+        #other qualities
+
+    deployed = models.BooleanField(default=False)
+    published = models.BooleanField(default=False) 
+    intern = models.BooleanField(default=False) 
     
 
 
