@@ -46,20 +46,40 @@ def final(request, *args, **kwargs):
         roll=request.POST.get('roll')
        
         presentation= request.POST.get('presentation')
-        
-        quality1 = request.POST.get('quality1')
-        quality2 = request.POST.get('quality2')
-        quality3 = request.POST.get('quality3')
-        quality4 = request.POST.get('quality4')
-        eca = request.POST.get('eca')
+        extra = request.POST.get('eca')
+        acade = request.POST.get('acad')
+        quality = request.POST.get('qual')
+
+
+        leaders = request.POST.get('quality1')
+        hardwork = request.POST.get('quality2')
+        social = request.POST.get('quality3')
+        teamwork = request.POST.get('quality4')
+        friendly = request.POST.get('quality5')
+
+        deployed = request.POST.get('quality6')
+        publish = request.POST.get('quality7')
+        intern = request.POST.get('quality8')
+
         
         student = StudentData.objects.get(std__roll_number = roll)
         student.presentation= presentation
-        student.quality1 = quality1 
-        student.quality2 = quality2 
-        student.quality3 = quality3 
-        student.quality4 = quality4 
-        student.eca = eca
+        student.extracirricular= extra
+        student.academics= acade
+        student.quality= quality
+
+
+        student.leadership = True if leaders == "on" else False
+        student.hardwork = True if hardwork == "on" else False
+        student.social = True if social == "on" else False
+        student.teamwork = True if teamwork == "on" else False
+        student.friendly = True if friendly == "on" else False
+
+        student.deployed = True if deployed == "on" else False
+        student.publishded = True if publish == "on" else False
+        student.intern = True if intern == "on" else False
+
+ 
         student.is_generated=True
         student.save()
         send_mail('Recommendation Letter', 'congratulation you recieved recommendation letter ,http://127.0.0.1:8000/loginStudent', 'christronaldo9090909@gmail.com', [student.email], fail_silently=False)

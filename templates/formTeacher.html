@@ -1,130 +1,136 @@
-{% extends 'base2.html' %}
+{% extends 'base2.html' %} {% block title %}Generate{% endblock title %} 
+{%block teacher %}<img src="{{teacher_model.images.url}}" style="width: 60px; height: 60px; border-radius: 50%" />{%endblock teacher %}
+ {% block body %}
+<div class="container">
+  <div class="title">{{roll}} has given these informations:</div>
+  <br />
+  <span class="details">Known Year: {{student.years_taught}}</span> <br />
+  <span class="details">Final year Project: {{student.final_project}}</span>
+  <br />
+  <span class="details">University: {{student.uni}}</span> <br />
+  <span class="details">GPA: {{student.gpa}}</span> <br />
+  <span class="details">Other projects: {{student.project1}},{{student.project2}}</span>
+  <br />
+  <span class="details">Paper: {{student.paper_link}}</span> <br />
+  <span class="details">Subjects: {{student.subjects}}</span> <br />
 
-{% block title %}Generate{% endblock title %}
-{% block teacher %}<img src="{{teacher_model.images.url}}" style="width:60px;height:60px; border-radius: 50%;" >{% endblock teacher %}
+  <div class="title">Give Information for {{roll}}</div>
+  <br />
+  <div class="content">
+    <form method="POST" , action="/final" target="_blank">
+      {% csrf_token %}
+      <div class="user-details">
+        <div class="input-box">
+          <span class="details">Presentation skills:</span>
+          <select name="presentation" required>
+            <option></option>
+            <option>good</option>
+            <option>best</option>
+            <option>prefect</option>
+          </select>
+        </div>
 
-{% block body %}
-  <div class="container">
-    <div class="title">{{roll}} has given these informations:</div> <br>
-    <span class="details">Known Year: {{student.years_taught}}</span> <br>
-      <span class="details">Final year Project: {{student.final_project}}</span> <br>
-      <span class="details">University: {{student.uni}}</span> <br>
-      <span class="details">GPA: {{student.gpa}}</span> <br>
-      <span class="details">Other projects: {{student.project1}},{{student.project2}}</span> <br>
-      <span class="details">Paper: {{student.paper_link}}</span> <br>
-      <span class="details">Subjects: {{student.subjects}}</span> <br>
+        <div class="input-box">
+          <span class="details">Extracirricular Activities</span>
+          <select name="eca" required>
+            <option></option>
+            <option>no</option>
+            <option>good</option>
+            <option>excellent</option>
+          </select>
+        </div>
+        <div class="input-box">
+          <span class="details">Academics Performance:</span>
+          <select name="acad" required>
+            <option></option>
+            <option>Topper</option>
+            <option>Top 10%</option>
+            <option>very good</option>
+            <option>excellent</option>
+          </select>
+        </div>
+        <div class="input-box">
+          <span class="details">Qualitiy:</span>
+          <select name="qual" required>
+            <option></option>
+            <option>sincere and hardworking</option>
+            <option>good</option>
+            <option>excellent</option>
+          </select>
+        </div>
 
-    <div class="title">Give Information for {{roll}}</div> <br>
-    <div class="content">
+        {% comment %}
+        <div class="input-box">
+          <span class="details">Project Details</span>
+          <input type="text" name="quality3" />
+        </div>
+        {% endcomment %}
 
+        <div class="gender-details">
+          <span class="gender-title">Personal Qualities</span>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="quality1" id="flexCheckDefault" />
+            <label class="form-check-label" for="flexCheckDefault">
+              Leadership
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="quality2" id="flexCheckDefault" />
+            <label class="form-check-label" for="flexCheckDefault">
+              Hardworking
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="quality3" id="flexCheckDefault" />
+            <label class="form-check-label" for="flexCheckDefault">
+              Social
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="quality4" id="flexCheckDefault" />
+            <label class="form-check-label" for="flexCheckDefault">
+              Teamwork
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="quality5" id="flexCheckDefault" />
+            <label class="form-check-label" for="flexCheckDefault">
+              Friendly
+            </label>
+          </div>
 
-      <form method="POST" , action="/final" target="_blank">
-        {% csrf_token %}
-        <div class="user-details">
+        </div>
 
-
+        <div class="gender-details">
+          <span class="gender-title">Other</span>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="quality6" id="flexCheckDefault" />
+            <label class="form-check-label" for="flexCheckDefault">
+              Deployed a Project
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="quality7" id="flexCheckDefault" />
+            <label class="form-check-label" for="flexCheckDefault">
+              Published the Paper
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="quality8" id="flexCheckDefault" />
+            <label class="form-check-label" for="flexCheckDefault">
+              Done internship
+            </label>
+          </div>
           <div class="input-box">
-            <span class="details">Presentation skills:</span>
-            <select name="presentation">
-              <option selected hidden>How?</option>
-              <option>good</option>
-              <option>best</option>
-              <option>prefect</option>
-            </select>
+            <input type="hidden" value="{{roll}}" name="roll" readonly />
           </div>
-
-
-
-          <div class="input-box">
-            <span class="details">Extracirricular Activities</span>
-            <select name="eca">
-              <option>no</option>
-              <option>good</option>
-              <option>excellent</option>
-            </select>
+          <div class="button">
+            <input type="submit" value="Submit" />
           </div>
-          <div class="input-box">
-            <span class="details">Academics Performance:</span>
-            <select name="quality1">
-              <option>no</option>
-              <option>good</option>
-              <option>excellent</option>
-            </select>
-          </div>
-          <div class="input-box">
-            <span class="details">Qualitiy:</span>
-            <select name="quality2">
-              <option>sencire and hardworking</option>
-              <option>good</option>
-              <option>excellent</option>
-            </select>
-          </div>
-          
-
-           <div class="input-box">
-            <span class="details">Project Details</span>
-            <input type="text" name="quality3">
-          </div>
-            <div class="input-box">
-            <span class="details">Project Details</span>
-            <input type="text" name="quality4">
-          </div>
-
-          <div class="input-box">
-              <input type="hidden" value="{{roll}}" name="roll" readonly>
-            </div>
-          
-          {% comment %} <div class="gender-details">
-            <span class="gender-title">Personal Qualities</span>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="Leadership" name="quality1" id="flexCheckDefault">
-              <label class="form-check-label" for="flexCheckDefault">
-                Leadership
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="quality2" value="Social" id="flexCheckDefault">
-              <label class="form-check-label" for="flexCheckDefault">
-                Hardworking
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="quality2" value="Social" id="flexCheckDefault">
-              <label class="form-check-label" for="flexCheckDefault">
-                Social
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="quality2" value="Social" id="flexCheckDefault">
-              <label class="form-check-label" for="flexCheckDefault">
-                Internship
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="quality2" value="Social" id="flexCheckDefault">
-              <label class="form-check-label" for="flexCheckDefault">
-                Deployed his project
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="quality2" value="Social" id="flexCheckDefault">
-              <label class="form-check-label" for="flexCheckDefault">
-                Teamwork
-              </label>
-            </div> {% endcomment %}
-
-            
-            
-
-            <div class="button">
-              <input type="submit" value="Submit">
-            </div>
-          </div> 
-          
-
-      </form>
+        
+      </div>
     </div>
+    </form>
   </div>
-
 
 {% endblock body %}
