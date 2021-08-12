@@ -13,7 +13,7 @@
 
    <div class="container-login100-form-btn">
         <button class="login100-form-btn mx-auto d-block" target="blank" type='submit' value="{{roll}}" name="roll">
-            Download
+            VIEW
         </button>
     </div>
 
@@ -25,5 +25,6 @@
 <h1 style="text-align:center">Your request has been successfully submitted.</h1>
 <p style="text-align:center;font-size:18px;"><br>You will have your letter here when professor provides it.<br>Don't worry you'll receive an email once done. </p>
 {% endif %}
+{% comment %} <input type="hidden" value="{{roll}}" name="roll" readonly> {% endcomment %}
 
 {% endblock body %}

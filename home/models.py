@@ -49,7 +49,7 @@ class StudentData(models.Model):
     paper_link = models.CharField(max_length=200,default="null")
     subjects= models.CharField(max_length=500, null=True, blank=True)
     
-
+    letter=models.CharField(max_length=20000,null=True,blank=True)
 
     # teacher side
     presentation= models.CharField(max_length=15,null=True,blank=True)
