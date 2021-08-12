@@ -31,6 +31,8 @@ urlpatterns = [
     path('changePhone', views.changePhone, name='changePhone'),
     path('changeEmail', views.changeEmail, name='changeEmail'),
     path('getdetails', views.getdetails, name='getdetails'),
+    path('edit', views.edit, name='edit'),
+
 
 
 
