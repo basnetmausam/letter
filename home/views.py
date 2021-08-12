@@ -727,7 +727,7 @@ def edit(request):
         # student.quality4 = quality4
         # student.eca = eca
         # student.is_generated = True
-        # student.save()
+        student.save()
     bisaya=student.subjects
     
     subjec=bisaya.split(',')
