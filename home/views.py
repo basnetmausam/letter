@@ -48,7 +48,7 @@ def gallery(request):
 import textwrap
 from fpdf import FPDF
 from io import BytesIO as bio
-import fs
+#import fs
 
 
 def text_to_pdf(text,roll):
@@ -72,7 +72,7 @@ def text_to_pdf(text,roll):
     splitted = text.split("\n")
     a=0
     for line in splitted:
-        lines = textwrap.wrap(line, width_text*0.95)
+        lines = textwrap.wrap(line, width_text*1.2)
 
         if a==0:
             if len(lines) == 0:
@@ -89,7 +89,7 @@ def text_to_pdf(text,roll):
             pdf.set_right_margin(25)
 
             pdf.set_x(25)
-            pdf.multi_cell(0, fontsize_mm, wrap)
+            pdf.multi_cell(0, fontsize_mm*1.5, wrap)
             a=a-1
            
 
@@ -212,6 +212,14 @@ def studentSuccess(request):
         pro2 = request.POST.get("pro2")
         is_paper = request.POST.get("is_paper")
         paper = request.POST.get("paper")
+
+        
+        deployed = request.POST.get('quality6')
+        publish = request.POST.get('quality7')
+        intern = request.POST.get('quality8')
+
+    
+
         subjects = Subject.objects.all()
         bisaya = []
         i = 0
@@ -225,6 +233,8 @@ def studentSuccess(request):
         id = x[-1]
         prof = TeacherInfo.objects.get(unique_id=id)
         stu = StudentLoginInfo.objects.get(roll_number=uroll)
+
+        
 
         info = StudentData(
             name=stu.username,
@@ -241,8 +251,13 @@ def studentSuccess(request):
             paper_link=paper,
             subjects=listToStr,
             years_taught=known_year,
+
+            deployed = True if deployed == "on" else False,
+            published = True if publish == "on" else False,
+            intern = True if intern == "on" else False,
         )
         info.save()
+
     return render(request, "student_success.html",{'roll':uroll})
 
 
@@ -516,7 +531,11 @@ def profileUpdate(request):
 
 
 def profileUpdateRequest(request):
+
     unique = request.COOKIES.get("unique")
+    teacherkonam = TeacherInfo.objects.get(unique_id=unique)
+    email = teacherkonam.email
+    username = User.objects.get(email=email)
 
     if request.method == "POST":
         photo = request.FILES["file"]
@@ -527,7 +546,7 @@ def profileUpdateRequest(request):
         teacherkonam.images = photo
         teacherkonam.save()
 
-    return render(request, "userDetails.html", {"teacher": teacherkonam})
+    return render(request, "userDetails.html", {"teacher_username": username, "teacher": teacherkonam})
 
 
 def changeUsername(request):
@@ -544,7 +563,7 @@ def changeUsername(request):
             user.username = new_username
             user.save()
             messages.success(request, "Username has been changed successfully.")
-            return redirect(userDetails)
+            return redirect(loginTeacher)
         else:
             messages.error(request, "No such username exists. ")
     return redirect(userDetails)
@@ -689,9 +708,6 @@ def edit(request):
         teamwork = request.POST.get('quality4')
         friendly = request.POST.get('quality5')
 
-        deployed = request.POST.get('quality6')
-        publish = request.POST.get('quality7')
-        intern = request.POST.get('quality8')
 
 
         student = StudentData.objects.get(std__roll_number = roll)
@@ -707,9 +723,7 @@ def edit(request):
         student.teamwork = True if teamwork == "on" else False
         student.friendly = True if friendly == "on" else False
 
-        student.deployed = True if deployed == "on" else False
-        student.publishded = True if publish == "on" else False
-        student.intern = True if intern == "on" else False
+ 
 
         # presentation = request.POST.get("presentation")
 
@@ -734,6 +748,10 @@ def edit(request):
     subjects=subjec[:-1]
     subject=subjec[-1]
 
+    #student firstname
+    name = student.name
+    fname = name.split(' ')
+    firstname = fname[0]
     
 
     length=len(subjec)
@@ -743,7 +761,7 @@ def edit(request):
     else:
         value=False
 
-    return render(request, "test.html", {"student": student,'subjects':subjects,'subject':subject,'value':value})
+    return render(request, "test.html", {"student": student,'subjects':subjects,'subject':subject,'value':value , 'firstname':firstname })
 
 
 def testing(request):
