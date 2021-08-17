@@ -511,16 +511,28 @@ def feedback(request):
 
 
 def userDetails(request):
+    subject=[]
+    naya_subjects=[]
     unique = request.COOKIES.get("unique")
     teacherkonam = TeacherInfo.objects.get(unique_id=unique)
     email = teacherkonam.email
     username = User.objects.get(email=email)
-
+    subjects=teacherkonam.subjects.all()
+    length = len(subjects)
+    bisaya=Subject.objects.all()
+    
+    for i in bisaya:
+        if i not in subjects:
+            naya_subjects.append(i)
+        else:
+            subject.append(i)
+    
     return render(
         request,
         "userDetails.html",
-        {"teacher_username": username, "teacher": teacherkonam},
+        {"teacher_username": username, "teacher": teacherkonam,'subjects':subject,'bisaya':bisaya, 'length':length},
     )
+
 
 
 def profileUpdate(request):
@@ -676,7 +688,76 @@ def changeEmail(request):
 
     return redirect(userDetails)
 
+def addSubjects(request):
+    if request.method == "POST":
+        subject= request.POST.get("subject")
+        usernaam = request.COOKIES.get("username")
 
+        user = User.objects.get(username=usernaam)
+        full_name = user.get_full_name()
+        x = full_name.split("/")
+
+        unique = x[-1]
+      
+        if TeacherInfo.objects.filter(unique_id=unique).exists():
+            teacher = TeacherInfo.objects.get(unique_id=unique)
+            naya_subject=Subject.objects.get(name=subject)
+            # to check if subject is in teacher model or not
+            check=[]
+            subjects=teacher.subjects.all()
+            for i in subjects:
+                check.append(i.name)
+            
+            if subject in check:
+                messages.error(request, "Subject already exists.")
+                return redirect(userDetails)
+        
+            else:
+                teacher.subjects.add(naya_subject)
+                messages.success(request, "Subject has been added successfully.")
+                return redirect(userDetails)
+        else:
+            messages.error(request, "No such Subject exists. ")
+            return redirect(userDetails)
+
+    return redirect(userDetails)
+
+def deleteSubjects(request):
+    if request.method == "POST":
+        subject= request.POST.get("subject")
+        usernaam = request.COOKIES.get("username")
+
+        user = User.objects.get(username=usernaam)
+        full_name = user.get_full_name()
+        x = full_name.split("/")
+
+        unique = x[-1]
+      
+        if TeacherInfo.objects.filter(unique_id=unique).exists():
+            teacher = TeacherInfo.objects.get(unique_id=unique)
+            naya_subject=Subject.objects.get(name=subject)
+
+            # to check if subject is in teacher model or not
+            check=[]
+            subjects=teacher.subjects.all()
+            for i in subjects:
+                check.append(i.name)
+            if subject not in check:
+               
+                messages.error(request, "Subject does not exists.")
+                return redirect(userDetails)
+        
+            else:
+                teacher.subjects.remove(naya_subject)
+                messages.success(request, "Subject has been removed successfully.")
+                return redirect(userDetails)
+        else:
+            messages.error(request, "No such Subject exists. ")
+            return redirect(userDetails)
+
+    return redirect(userDetails)
+
+# for dynamic dropdown of subjects
 def getdetails(request):
     teacher_id = json.loads(request.GET.get("d_name"))
     result_set = []
@@ -692,6 +773,7 @@ def getdetails(request):
     )
 
 
+# edit letter of recommendation
 def edit(request):
     if request.method == "POST":
         roll = request.POST.get("roll")
@@ -725,22 +807,6 @@ def edit(request):
 
  
 
-        # presentation = request.POST.get("presentation")
-
-        # quality1 = request.POST.get("quality1")
-        # quality2 = request.POST.get("quality2")
-        # quality3 = request.POST.get("quality3")
-        # quality4 = request.POST.get("quality4")
-        # eca = request.POST.get("eca")
-
-        # student = StudentData.objects.get(std__roll_number=roll)
-        # student.presentation = presentation
-        # student.quality1 = quality1
-        # student.quality2 = quality2
-        # student.quality3 = quality3
-        # student.quality4 = quality4
-        # student.eca = eca
-        # student.is_generated = True
         student.save()
     bisaya=student.subjects
     

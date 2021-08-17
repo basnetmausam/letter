@@ -1,6 +1,8 @@
 from django.db import models
 from django.db.models.deletion import CASCADE
 
+
+
 class StudentLoginInfo(models.Model):
     username = models.CharField(max_length=120,null=True,blank=True)
     roll_number = models.CharField(max_length=9,null=True,blank=True)
@@ -43,10 +45,10 @@ class StudentData(models.Model):
     gpa = models.CharField(max_length=5 ,default="null")
     is_pro = models.CharField(max_length=3,default="null")
     final_project = models.CharField(max_length=100)
-    project1 = models.CharField(max_length=100,default="null", null=True,blank=True)
-    project2 = models.CharField(max_length=100,default="null", null=True,blank=True)
+    project1 = models.CharField(max_length=100,default="null")
+    project2 = models.CharField(max_length=100,default="null")
     paper = models.CharField(max_length=3,default="null")
-    paper_link = models.CharField(max_length=200,default="null",blank=True)
+    paper_link = models.CharField(max_length=200,default="null")
     subjects= models.CharField(max_length=500, null=True, blank=True)
     
 
@@ -55,7 +57,7 @@ class StudentData(models.Model):
     presentation= models.CharField(max_length=15,null=True,blank=True)
     extracirricular= models.CharField(max_length=15,null=True,blank=True)
     academics= models.CharField(max_length=15,null=True,blank=True)
-    quality= models.CharField(max_length=30,null=True,blank=True)
+    quality= models.CharField(max_length=15,null=True,blank=True)
 
         #personal qualities
     leadership = models.BooleanField(default=False) 

@@ -32,6 +32,10 @@ urlpatterns = [
     path('changeEmail', views.changeEmail, name='changeEmail'),
     path('getdetails', views.getdetails, name='getdetails'),
     path('edit', views.edit, name='edit'),
+    path('addSubjects', views.addSubjects, name='addSubjects'),
+    path('deleteSubjects', views.deleteSubjects, name='deleteSubjects'),
+
+
 
 
 
