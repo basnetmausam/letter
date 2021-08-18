@@ -115,7 +115,7 @@ def final(request, *args, **kwargs):
         text_to_pdf(letter,roll)
         student.is_generated = True
         student.save()
-        send_mail('Recommendation Letter', 'congratulation you recieved recommendation letter ,http://127.0.0.1:8000/loginStudent', 'christronaldo9090909@gmail.com', [student.email], fail_silently=False)
+        send_mail('Recommendation Letter', 'congratulation you recieved recommendation letter. Link: http://127.0.0.1:8000/loginStudent', 'recoioe@gmail.com', [student.email], fail_silently=False)
         return redirect("media/letter/"+roll+".pdf")
 
 
@@ -140,34 +140,37 @@ def loginStudent(request):
         dob = request.POST.get("dob")
 
         if StudentLoginInfo.objects.filter(username__exact=usern).exists():
-            student = StudentLoginInfo.objects.get(roll_number__exact=roll)
-            if student.username == usern and str(student.dob) == dob:
-                teachers = TeacherInfo.objects.filter(department=student.department)
-                if StudentData.objects.filter(std__roll_number=roll).exists():
-                    stdnt = StudentData.objects.get(std__roll_number=roll)
-                    return render(
-                        request,
-                        "student_success.html",
-                        {
-                            "naam": student.username,
-                            "roll": student.roll_number,
-                            "letter": stdnt.is_generated,
-                        },
-                    )
-                else:
-                    return render(
-                        request,
-                        "Student.html",
-                        {
-                            "naam": student.username,
-                            "teachers": teachers,
-                            "roll": student.roll_number,
-                        },
-                    )
+            if StudentLoginInfo.objects.filter(roll_number__exact=roll).exists():
+                student = StudentLoginInfo.objects.get(roll_number__exact=roll)
+                if student.username == usern and str(student.dob) == dob :
+                    teachers = TeacherInfo.objects.filter(department=student.department)
+                    if StudentData.objects.filter(std__roll_number=roll).exists():
+                        stdnt = StudentData.objects.get(std__roll_number=roll)
+                        return render(
+                            request,
+                            "student_success.html",
+                            {
+                                "naam": student.username,
+                                "roll": student.roll_number,
+                                "letter": stdnt.is_generated,
+                            },
+                        )
+                    else:
+                        return render(
+                            request,
+                            "Student.html",
+                            {
+                                "naam": student.username,
+                                "teachers": teachers,
+                                "roll": student.roll_number,
+                            },
+                        )
 
+                else:
+                    messages.error(request, "Sorry!  The Credentials doesn't match.")
+                    return render(request, "loginStudent.html")
             else:
-                messages.error(request, "Sorry!  The Credentials doesnot match.")
-                return render(request, "loginStudent.html")
+                messages.error(request, "Sorry!  The Credentials doesn't match.")
         else:
             messages.error(request, "Seems Like You are not the student of Pulchowk")
             return render(request, "loginStudent.html")
@@ -278,6 +281,9 @@ def loginTeacher(request):
                 # name = x[0]
 
                 teacher_model = TeacherInfo.objects.get(unique_id=unique)
+                # for loop launlaii 
+                generated_dataharu = StudentData.objects.filter(professor__unique_id=unique , is_generated=True)
+
                 dataharu = StudentData.objects.filter(professor__unique_id=unique)
                 number = len(dataharu)
                 # to check if there is request or not on teachers page
@@ -291,7 +297,7 @@ def loginTeacher(request):
                     check_value = False
                     # to convert database to json objects
                 std_dataharu = serializers.serialize(
-                    "json", StudentData.objects.filter(professor__unique_id=unique)
+                    "json", StudentData.objects.filter(professor__unique_id=unique,is_generated=True)
                 )
                 non_generated = StudentData.objects.filter(
                     is_generated=False, professor__unique_id=unique
@@ -301,7 +307,7 @@ def loginTeacher(request):
                     request,
                     "Teacher.html",
                     {
-                        "all_students": dataharu,
+                        "all_students": generated_dataharu,
                         "student_list": non_generated,
                         "check_value": check_value,
                         "teacher_number": number,
@@ -388,7 +394,7 @@ def otp(request):
                 send_mail(
                     "OTP ",
                     "Your OTP for Recoomendation Letter is " + str(OTP_value),
-                    "christronaldo9090909@gmail.com",
+                    "recoioe@gmail.com",
                     [master.email],
                     fail_silently=False,
                 )

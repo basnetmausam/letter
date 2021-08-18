@@ -54,10 +54,10 @@ class StudentData(models.Model):
 
 
     # teacher side
-    presentation= models.CharField(max_length=15,null=True,blank=True)
-    extracirricular= models.CharField(max_length=15,null=True,blank=True)
-    academics= models.CharField(max_length=15,null=True,blank=True)
-    quality= models.CharField(max_length=15,null=True,blank=True)
+    presentation= models.CharField(max_length=50,null=True,blank=True)
+    extracirricular= models.CharField(max_length=50,null=True,blank=True)
+    academics= models.CharField(max_length=50,null=True,blank=True)
+    quality= models.CharField(max_length=50,null=True,blank=True)
 
         #personal qualities
     leadership = models.BooleanField(default=False) 
