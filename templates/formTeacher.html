@@ -2,7 +2,7 @@
 {%block teacher %}<img src="{{teacher_model.images.url}}" style="width:33px;height:33px; border-radius: 50%;" />{%endblock teacher %}
  {% block body %}
 <div class="container">
-  <div class="title">{{roll}} has given these informations:</div>
+  <div class="title">{{student.name}} has given these informations:</div>
   <br />
   <span class="details">Known Year: {{student.years_taught}}</span> <br />
   <span class="details">Final year Project: {{student.final_project}}</span>
@@ -11,10 +11,13 @@
   <span class="details">GPA: {{student.gpa}}</span> <br />
   <span class="details">Other projects: {{student.project1}},{{student.project2}}</span>
   <br />
-  <span class="details">Paper: <a target="_blank" href="{{student.paper_link}}">{{student.paper_link}}</a></span> <br />
+  {% if student.paper == "Yes" %}
+  <span class="details">Paper: <a target="_blank" href="{{student.paper_link}}">{{student.paper_title}}</a></span> <br />
+  
+  {% endif %}
   <span class="details">Subjects: {{student.subjects}}</span> <br />
 
-  <div class="title">Give Information for {{roll}}</div>
+  <div class="title">Give Information for {{student.name}}</div>
   <br />
   <div class="content">
     <form method="POST" , action="/edit" >
@@ -34,8 +37,8 @@
           <span class="details">Extracirricular Activities</span>
           <select name="eca" required>
             <option></option>
-            <option>no</option>
-            <option>yes</option>
+            <option>Yes</option>
+            <option>No</option>
 
           </select>
         </div>
@@ -43,10 +46,9 @@
           <span class="details">Academics Performance:</span>
           <select name="acad" required>
             <option></option>
-            <option>Top</option>
-            <option>Top 10%</option>
-            <option>very good</option>
-            <option>excellent</option>
+            <option>topper</option>
+            <option>top 10 %</option>
+            <option>finest</option>
           </select>
         </div>
         <div class="input-box">

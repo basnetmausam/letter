@@ -212,13 +212,12 @@ def studentSuccess(request):
         known_year = request.POST.get("yrs")
         f_project = request.POST.get("fproject")
         pro1 = request.POST.get("pro1")
-        pro2 = request.POST.get("pro2")
         is_paper = request.POST.get("is_paper")
+        title_paper = request.POST.get("paper_title")
         paper = request.POST.get("paper")
 
         
         deployed = request.POST.get('quality6')
-        publish = request.POST.get('quality7')
         intern = request.POST.get('quality8')
 
     
@@ -249,14 +248,14 @@ def studentSuccess(request):
             is_pro=is_project,
             final_project=f_project,
             project1=pro1,
-            project2=pro2,
             paper=is_paper,
+            paper_title = title_paper,
             paper_link=paper,
             subjects=listToStr,
             years_taught=known_year,
 
             deployed = True if deployed == "on" else False,
-            published = True if publish == "on" else False,
+        
             intern = True if intern == "on" else False,
         )
         info.save()

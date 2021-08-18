@@ -17,12 +17,16 @@
                     <br>I would like to recommend <b>{{student.name}}</b> for admission to the graduate program at your
                     university.
                     I have known {{firstname}} for about {{student.years_taught}} now as an undergraduate student
-                    in {{student.std.program}} engineering.
-                    Moreover, I was the supervisor for his final year project. I taught him
+                    in {{student.std.program}} Engineering.
+                    {%if student.is_pro == 'Yes'%}
+                        Moreover, I was the supervisor for his final year project.
+                    {%endif%}
+                    
+                     
                     {% if value %}
-                    {{subject}}.
+                    I taught him {{subject}}.
                     {%else%}
-
+                    I taught him
                     {%for item in subjects %} {{item}}, {%endfor%} and {{subject}}.
 
                     {%endif%}
@@ -32,19 +36,36 @@
 
 
                 <p><br>I recall {{firstname}} as a {{student.quality}} student.
+                    
+                    {% if student.academics == "topper" %}
+                    In fact, he was the topper of his batch in {{student.std.program}} Engineering.
+                    {% else %}
                     He maintained excellent academic performance throughout his undergraduate
-                    ranking among the {{student.academics}} students of his batch. As an instructor and his supervisor
+                    ranking among the {{student.academics}} students of his batch.
+                    {% endif %}
+                    As an instructor and his supervisor
                     too I had enough opportunity is observe his capabilities closely.</p>
 
 
-                <p><br>I was the supervisor in his project titled {{student.final_project}} . I was
-                    quite impressed by his hardworking nature and learning capability. I could observe his keen interest
+                <p><br>
+
+                    {%if student.is_pro == 'Yes'%}
+                    I was the supervisor in his project titled {{student.final_project}}.
+                    I was quite impressed by his hardworking nature and learning capability. 
+                    {%endif%}
+
+                    {%if student.project1%}
+                    I supervised him in his project {{student.project1}}. I could observe his keen interest
                     and aptitude for research while working on the project.
-                    {{student.project}}
-                    {%if student.paper == 'yes'%}
-                    In fact, at the end of the project, he was also able to publish a paper on {{student.paper_link}}.
+                    {%endif%}
+                    
+
+                    {%if student.paper == 'Yes'%}
+                    In fact, he was also able to publish a paper on {{student.paper_title}}.
+                    {%endif%}
+
                 </p>
-                {%endif%}
+                
 
                 <p><br>I have noted his {{student.presentation}} presentation skills while he presented his work at our
                     department as well as in the
@@ -68,7 +89,7 @@
 
 
                 <p><br>I appreciate his technical and professional skills.
-                    {%if student.eca != 'no'%}
+                    {%if student.eca != 'No'%}
                     Besides academics, he was also involved in several extra-curricular activities .
                     He participated in various competitions organized in and off the campus.
                     {%endif%}
@@ -92,49 +113,68 @@
                     <br>{{student.professor.title}},
                     <br>Department of {{student.professor.department}} Engineering
                     <br>Pulchowk Campus, Institute of Engineering, Tribhuvan University
-                    <br>Phone:{{student.professor.phone}}
+                    <br>Phone: {{student.professor.phone}}
                     <br>Mail: {{student.professor.email}}
                 </p> 
 
                 
             {% else %}
-
                 <p>
                     <br>I would like to recommend <b>{{student.name}}</b> for admission to the graduate program at your
                     university.
                     I have known {{firstname}} for about {{student.years_taught}} now as an undergraduate student
-                    in {{student.std.program}} engineering.
-                    Moreover, I was the supervisor for her final year project. I taught her
+                    in {{student.std.program}} Engineering.
+                    {%if student.is_pro == 'Yes'%}
+                        Moreover, I was the supervisor for her final year project.
+                    {%endif%}
+                    
+                     
                     {% if value %}
-                    {{subject}}.
+                    I taught her {{subject}}.
                     {%else%}
-
+                    I taught her
                     {%for item in subjects %} {{item}}, {%endfor%} and {{subject}}.
 
                     {%endif%}
 
                 </p>
 
+
+
                 <p><br>I recall {{firstname}} as a {{student.quality}} student.
+                    
+                    {% if student.academics == "topper" %}
+                    In fact, she was the topper of his batch in {{student.std.program}} Engineering.
+                    {% else %}
                     She maintained excellent academic performance throughout her undergraduate
-                    ranking among the {{student.academics}} students of her batch. As an instructor and her supervisor
-                    too I had enough opportunity is observe his capabilities closely.</p>
+                    ranking among the {{student.academics}} students of her batch.
+                    {% endif %}
+                    As an instructor and her supervisor
+                    too I had enough opportunity is observe her capabilities closely.</p>
 
 
-    
-                <p><br>I was the supervisor in her project titled {{student.final_project}} . I was
-                    quite impressed by her hardworking nature and learning capability. I could observe her keen interest
+                <p><br>
+
+                    {%if student.is_pro == 'Yes'%}
+                    I was the supervisor in her project titled {{student.final_project}}.
+                    I was quite impressed by her hardworking nature and learning capability. 
+                    {%endif%}
+
+                    {%if student.project1%}
+                    I supervised in her project {{student.project1}}. I could observe her keen interest
                     and aptitude for research while working on the project.
-                    {{student.project}}
-                    {%if student.paper == 'yes'%}
-                    In fact, at the end of the project, she was also able to publish a paper on {{student.paper_link}}.
-                
+                    {%endif%}
+                    
+
+                    {%if student.paper == 'Yes'%}
+                    In fact, she was also able to publish a paper on {{student.paper_title}}.
+                    {%endif%}
+
                 </p>
-                {%endif%}
                 
+
                 <p><br>I have noted her {{student.presentation}} presentation skills while she presented her work at our
-                    department as well as in the
-                    conference.
+                    department as well as in the conference.
                     {%if student.leadership or student.teamwork%}
                     I have seen that she has good leadership capability and has a teamwork spirit.
                     {%endif%}
@@ -145,29 +185,28 @@
                     She is a well-spoken person with a friendly and gentle personality.
                     {%endif%}
                     {%if student.social%}
-                    She also has given her time to different social causes.
+                    She also has given his time to different social causes.
                     {%endif%}
                     She is very helpful and cooperative student. She eagerly handed over her
-                    project work to his juniors who wanted to further continue the research on the topic along
+                    project work to her juniors who wanted to further continue the research on the topic along
                     with proper guidance and resources. I have also been impressed by her communication skills during
                     project presentations and lectures.</p>
 
 
                 <p><br>I appreciate her technical and professional skills.
-                    {%if student.eca != 'no'%}
+                    {%if student.eca != 'No'%}
                     Besides academics, she was also involved in several extra-curricular activities .
                     She participated in various competitions organized in and off the campus.
                     {%endif%}
                     {%if student.deployed%}
                     Unlike, most students who limit their project to an
-                    academic exercise, she actually deployed his project publicly in our server and maintained it.
+                    academic exercise, she actually deployed her project publicly in our server and maintained it.
                     {%endif%}
                     {%if student.intern%}
                     She has worked in some IT companies which, I believe, has further added to her technical skills and
                     professional experience.
                     {%endif%}
-                    <br>
-
+            
                 </p>
 
                 <p><br>I am quite confident that {{firstname}}'s skills coupled with academic capability will make her a
@@ -179,10 +218,13 @@
                     <br>{{student.professor.title}},
                     <br>Department of {{student.professor.department}} Engineering
                     <br>Pulchowk Campus, Institute of Engineering, Tribhuvan University
-                    <br>Phone:{{student.professor.phone}}
+                    <br>Phone: {{student.professor.phone}}
                     <br>Mail: {{student.professor.email}}
-                </p>
+                </p> 
 
+
+
+ 
             {% endif %}
 
             </div>

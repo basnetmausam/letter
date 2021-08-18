@@ -40,14 +40,14 @@ class StudentData(models.Model):
     professor = models.ForeignKey(TeacherInfo, on_delete= CASCADE)
     std = models.ForeignKey(StudentLoginInfo, on_delete= CASCADE)
     is_generated = models.BooleanField(default=False) 
-    years_taught= models.CharField(max_length=2, null=True, blank=True)
+    years_taught= models.CharField(max_length=10, null=True, blank=True)
     
     gpa = models.CharField(max_length=5 ,default="null")
     is_pro = models.CharField(max_length=3,default="null")
     final_project = models.CharField(max_length=100)
     project1 = models.CharField(max_length=100,default="null")
-    project2 = models.CharField(max_length=100,default="null")
     paper = models.CharField(max_length=3,default="null")
+    paper_title = models.CharField(max_length=50,default="null")
     paper_link = models.CharField(max_length=200,default="null")
     subjects= models.CharField(max_length=500, null=True, blank=True)
     
@@ -70,7 +70,6 @@ class StudentData(models.Model):
         #other qualities
 
     deployed = models.BooleanField(default=False)
-    published = models.BooleanField(default=False) 
     intern = models.BooleanField(default=False) 
     
 
