@@ -316,7 +316,7 @@ def loginTeacher(request):
                 )
                 response.set_cookie("unique", unique)
                 response.set_cookie("username", user.username)
-
+                
                 return response
             # A backend authenticated the credentials
             else:
@@ -519,6 +519,8 @@ def userDetails(request):
     subject=[]
     naya_subjects=[]
     unique = request.COOKIES.get("unique")
+   
+    
     teacherkonam = TeacherInfo.objects.get(unique_id=unique)
     email = teacherkonam.email
     username = User.objects.get(email=email)
@@ -728,6 +730,7 @@ def addSubjects(request):
     return redirect(userDetails)
 
 def deleteSubjects(request):
+   
     if request.method == "POST":
         subject= request.POST.get("subject")
         usernaam = request.COOKIES.get("username")
@@ -842,4 +845,45 @@ def testing(request):
     return render(request, "testing.html", {"letter": textarea})
 
 
+def teacher(request):
+    value=0
+   
+    unique = request.COOKIES.get("unique")
+
+    teacher_model = TeacherInfo.objects.get(unique_id=unique)
+    # for loop launlaii 
+    generated_dataharu = StudentData.objects.filter(professor__unique_id=unique , is_generated=True)
+
+    dataharu = StudentData.objects.filter(professor__unique_id=unique)
+    number = len(dataharu)
+    # to check if there is request or not on teachers page
+    for data in dataharu:
+        if data.is_generated:
+            value += 1
+    datakolength = len(dataharu)
+    if datakolength == value:
+        check_value = True
+    else:
+        check_value = False
+        # to convert database to json objects
+    std_dataharu = serializers.serialize(
+        "json", StudentData.objects.filter(professor__unique_id=unique,is_generated=True)
+    )
+    non_generated = StudentData.objects.filter(
+        is_generated=False, professor__unique_id=unique
+    )
+
+    response = render(
+        request,
+        "Teacher.html",
+        {
+            "all_students": generated_dataharu,
+            "student_list": non_generated,
+            "check_value": check_value,
+            "teacher_number": number,
+            "std_dataharu": std_dataharu,
+            "teacher_model": teacher_model,
+        },
+    )
+    return response
 

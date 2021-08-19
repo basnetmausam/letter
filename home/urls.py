@@ -34,6 +34,8 @@ urlpatterns = [
     path('edit', views.edit, name='edit'),
     path('addSubjects', views.addSubjects, name='addSubjects'),
     path('deleteSubjects', views.deleteSubjects, name='deleteSubjects'),
+    path('teacher', views.teacher, name='teacher'),
+
 
 
 

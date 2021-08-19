@@ -1,5 +1,5 @@
 {% extends 'base2.html' %} {% block title %}Generate{% endblock title %} 
-{%block teacher %}<img src="{{teacher_model.images.url}}" style="width:33px;height:33px; border-radius: 50%;" />{%endblock teacher %}
+{% block teacher %}<a href="teacher"><img src="{{teacher.images.url}}" style="width:33px;height:33px; border-radius: 50%;" ></a>{% endblock teacher %}
  {% block body %}
 <div class="container">
   <div class="title">{{student.name}} has given these informations:</div>
