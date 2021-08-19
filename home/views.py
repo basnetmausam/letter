@@ -492,8 +492,7 @@ def feedback(request):
         feedback = request.POST.get("feedback")
 
         message = (
-            str(First_name)
-            + "\n"
+            str(First_name)+" " 
             + str(last_name)
             + "\n"
             + str(email)
