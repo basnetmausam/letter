@@ -18,7 +18,7 @@ import json
 # imports from xhtml
 from django.http import HttpResponse
 from django.template.loader import get_template
-from xhtml2pdf import pisa
+#from xhtml2pdf import pisa
 
 
 # serializers helps to convert queryset into json strings
