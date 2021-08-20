@@ -16,7 +16,7 @@
   {% for student in student_list %}
   <div class="alert alert-success" role="alert">
     <h4 class="alert-heading">{{student.name}}</h4>
-    <p>This person has requested you for the recommendation letter.He has gpa {{student.gpa}}</p>
+    <p>This person has requested you for the recommendation letter.</p>
     <hr>
     <form action='/makeLetter' method='POST' target="_blank">
       {% csrf_token %}
